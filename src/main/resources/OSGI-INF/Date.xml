@@ -1,0 +1,9 @@
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="be.nabu.libs.types.simple.Date">
+	
+	<implementation class="be.nabu.libs.types.simple.Date" />
+	
+	<service>
+		<provide interface="be.nabu.libs.types.api.DefinedSimpleType"/>
+	</service>
+
+</scr:component>

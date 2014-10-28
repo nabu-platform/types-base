@@ -1,0 +1,4 @@
+be.nabu.libs.types.converters.DefinedTypeToString
+be.nabu.libs.types.converters.StringToDefinedType
+be.nabu.libs.types.converters.SimpleTypeToString
+be.nabu.libs.types.converters.StringToSimpleType

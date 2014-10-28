@@ -1,0 +1,14 @@
+be.nabu.libs.types.simple.Boolean
+be.nabu.libs.types.simple.Decimal
+be.nabu.libs.types.simple.Double
+be.nabu.libs.types.simple.Float
+be.nabu.libs.types.simple.Int
+be.nabu.libs.types.simple.Integer
+be.nabu.libs.types.simple.Long
+be.nabu.libs.types.simple.Short
+be.nabu.libs.types.simple.Byte
+be.nabu.libs.types.simple.String
+be.nabu.libs.types.simple.URI
+be.nabu.libs.types.simple.Bytes
+be.nabu.libs.types.simple.Date
+be.nabu.libs.types.simple.Class

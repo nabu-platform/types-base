@@ -1,0 +1,9 @@
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="be.nabu.libs.types.base.ListCollectionHandlerProvider">
+	
+	<implementation class="be.nabu.libs.types.base.ListCollectionHandlerProvider" />
+	
+	<service>
+		<provide interface="be.nabu.libs.types.api.CollectionHandlerProvider"/>
+	</service>
+
+</scr:component>

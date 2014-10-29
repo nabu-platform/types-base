@@ -104,7 +104,7 @@ public class GenericCollectionHandlerProvider extends IntegerCollectionProviderB
 	@Override
 	public Collection create(Class<? extends Collection> definitionClass, int size) {
 		// if you want _any_ collection, just return a list
-		if (definitionClass == null || Collection.class.equals(definitionClass) || List.class.equals(definitionClass)) {
+		if (definitionClass == null || Collection.class.equals(definitionClass) || List.class.equals(definitionClass) || definitionClass.getName().startsWith("java.util.Arrays")) {
 			return new ArrayList(size);
 		}
 		// check interfaces

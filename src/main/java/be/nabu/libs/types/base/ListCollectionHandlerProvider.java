@@ -50,7 +50,9 @@ public class ListCollectionHandlerProvider extends IntegerCollectionProviderBase
 
 	@Override
 	public List create(Class<? extends List> definitionClass, int size) {
-		if (definitionClass == null || List.class.equals(definitionClass)) {
+		// the last one is a check for a list created by Arrays.asList(), it is a non-visible class called java.util.Arrays$ArrayList
+		// because this is read-only and invisible (meaning it can't be the actual type you are requesting) we create an arraylist
+		if (definitionClass == null || List.class.equals(definitionClass) || definitionClass.getName().startsWith("java.util.Arrays")) {
 			return new ArrayList(size);
 		}
 		else {

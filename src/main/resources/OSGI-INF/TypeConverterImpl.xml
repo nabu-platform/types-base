@@ -6,18 +6,18 @@
 		<provide interface="be.nabu.libs.types.api.TypeConverter"/>
 	</service>
 	
- 	<reference name="TypeConverterProvider"
+ 	<reference name="TypeConverterImpl_TypeConverterProvider"
 		interface="be.nabu.libs.types.api.TypeConverterProvider"
 		bind="addTypeConverter"
 		unbind="removeTypeConverter"
 		cardinality="0..n"
-		policy="static"/>
+		policy="dynamic"/>
 
- 	<reference name="Converter"
+ 	<reference name="TypeConverterImpl_Converter"
 		interface="be.nabu.libs.converter.api.Converter"
 		bind="setConverter"
 		unbind="unsetConverter"
 		cardinality="0..1"
-		policy="static"/>
+		policy="dynamic"/>
 		
 </scr:component>

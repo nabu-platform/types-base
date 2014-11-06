@@ -6,11 +6,11 @@
 		<provide interface="be.nabu.libs.types.api.CollectionHandler"/>
 	</service>
 	
- 	<reference name="CollectionHandlerProvider"
+ 	<reference name="CollectionHandlerImpl"
 		interface="be.nabu.libs.types.api.CollectionHandlerProvider"
 		bind="addCollectionHandler"
 		unbind="removeCollectionHandler"
 		cardinality="0..n"
-		policy="static"/>
+		policy="dynamic"/>
 
 </scr:component>

@@ -6,11 +6,11 @@
 		<provide interface="be.nabu.libs.types.api.SimpleTypeWrapper"/>
 	</service>
 	
- 	<reference name="SimpleType"
+ 	<reference name="SimpleTypeWrapperImpl"
 		interface="be.nabu.libs.types.api.SimpleType"
 		bind="addSimpleType"
 		unbind="removeSimpleType"
 		cardinality="0..n"
-		policy="static"/>
+		policy="dynamic"/>
 
 </scr:component>

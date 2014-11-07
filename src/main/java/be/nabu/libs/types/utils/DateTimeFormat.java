@@ -1,4 +1,4 @@
-package be.nabu.libs.types;
+package be.nabu.libs.types.utils;
 
 import java.util.Locale;
 

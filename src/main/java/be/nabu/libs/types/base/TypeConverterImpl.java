@@ -1,5 +1,7 @@
 package be.nabu.libs.types.base;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
@@ -43,11 +45,37 @@ public class TypeConverterImpl implements TypeConverter {
 		providers.remove(provider);
 	}
 	
+	@SuppressWarnings("unchecked")
 	protected List<TypeConverterProvider> getProviders() {
 		if (providers.isEmpty()) {
-			ServiceLoader<TypeConverterProvider> serviceLoader = ServiceLoader.load(TypeConverterProvider.class);
-			for (TypeConverterProvider provider : serviceLoader)
-				providers.add(provider);
+			try {
+				// let's try this with custom service loading based on a configuration
+				Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass("be.nabu.utils.services.ServiceLoader");
+				Method declaredMethod = clazz.getDeclaredMethod("load", Class.class);
+				providers.addAll((List<TypeConverterProvider>) declaredMethod.invoke(null, TypeConverterProvider.class));
+			}
+			catch (ClassNotFoundException e) {
+				// ignore, the framework is not present
+			}
+			catch (NoSuchMethodException e) {
+				// corrupt framework?
+				throw new RuntimeException(e);
+			}
+			catch (SecurityException e) {
+				throw new RuntimeException(e);
+			}
+			catch (IllegalAccessException e) {
+				// ignore
+			}
+			catch (InvocationTargetException e) {
+				// ignore
+			}
+			if (providers.isEmpty()) {
+				ServiceLoader<TypeConverterProvider> serviceLoader = ServiceLoader.load(TypeConverterProvider.class);
+				for (TypeConverterProvider provider : serviceLoader) {
+					providers.add(provider);
+				}
+			}
 		}
 		return providers;
 	}

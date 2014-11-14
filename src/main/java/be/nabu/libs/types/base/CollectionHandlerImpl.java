@@ -1,5 +1,7 @@
 package be.nabu.libs.types.base;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
@@ -18,12 +20,37 @@ public class CollectionHandlerImpl implements CollectionHandler {
 		handlers.remove(handler);
 	}
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected List<CollectionHandlerProvider<?, ?>> getHandlers() {
 		if (handlers.isEmpty()) {
-			ServiceLoader<CollectionHandlerProvider> serviceLoader = ServiceLoader.load(CollectionHandlerProvider.class);
-			for (CollectionHandlerProvider provider : serviceLoader)
-				handlers.add(provider);
+			try {
+				// let's try this with custom service loading based on a configuration
+				Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass("be.nabu.utils.services.ServiceLoader");
+				Method declaredMethod = clazz.getDeclaredMethod("load", Class.class);
+				handlers.addAll((List<CollectionHandlerProvider<?, ?>>) declaredMethod.invoke(null, CollectionHandlerProvider.class));
+			}
+			catch (ClassNotFoundException e) {
+				// ignore, the framework is not present
+			}
+			catch (NoSuchMethodException e) {
+				// corrupt framework?
+				throw new RuntimeException(e);
+			}
+			catch (SecurityException e) {
+				throw new RuntimeException(e);
+			}
+			catch (IllegalAccessException e) {
+				// ignore
+			}
+			catch (InvocationTargetException e) {
+				// ignore
+			}
+			if (handlers.isEmpty()) {
+				ServiceLoader<CollectionHandlerProvider> serviceLoader = ServiceLoader.load(CollectionHandlerProvider.class);
+				for (CollectionHandlerProvider provider : serviceLoader) {
+					handlers.add(provider);
+				}
+			}
 		}
 		return handlers;
 	}

@@ -1,5 +1,7 @@
 package be.nabu.libs.types.base;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,14 +35,39 @@ public class SimpleTypeWrapperImpl implements SimpleTypeWrapper {
 		simpleTypes.remove(simpleType);
 	}
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected List<DefinedSimpleType<?>> getSimpleTypes() {
 		if (simpleTypes.isEmpty()) {
 			synchronized(simpleTypes) {
 				if (simpleTypes.isEmpty()) {
-					ServiceLoader<DefinedSimpleType> serviceLoader = ServiceLoader.load(DefinedSimpleType.class);
-					for (DefinedSimpleType provider : serviceLoader)
-						simpleTypes.add(provider);
+					try {
+						// let's try this with custom service loading based on a configuration
+						Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass("be.nabu.utils.services.ServiceLoader");
+						Method declaredMethod = clazz.getDeclaredMethod("load", Class.class);
+						simpleTypes.addAll((List<DefinedSimpleType<?>>) declaredMethod.invoke(null, DefinedSimpleType.class));
+					}
+					catch (ClassNotFoundException e) {
+						// ignore, the framework is not present
+					}
+					catch (NoSuchMethodException e) {
+						// corrupt framework?
+						throw new RuntimeException(e);
+					}
+					catch (SecurityException e) {
+						throw new RuntimeException(e);
+					}
+					catch (IllegalAccessException e) {
+						// ignore
+					}
+					catch (InvocationTargetException e) {
+						// ignore
+					}
+					if (simpleTypes.isEmpty()) {
+						ServiceLoader<DefinedSimpleType> serviceLoader = ServiceLoader.load(DefinedSimpleType.class);
+						for (DefinedSimpleType provider : serviceLoader) {
+							simpleTypes.add(provider);
+						}
+					}
 				}
 			}
 		}

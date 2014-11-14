@@ -12,3 +12,4 @@ be.nabu.libs.types.simple.URI
 be.nabu.libs.types.simple.Bytes
 be.nabu.libs.types.simple.Date
 be.nabu.libs.types.simple.Class
+be.nabu.libs.types.simple.InputStream

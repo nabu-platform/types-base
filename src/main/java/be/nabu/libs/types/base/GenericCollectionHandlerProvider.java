@@ -104,17 +104,17 @@ public class GenericCollectionHandlerProvider extends IntegerCollectionProviderB
 	@Override
 	public Collection create(Class<? extends Collection> definitionClass, int size) {
 		// if you want _any_ collection, just return a list
-		if (definitionClass == null || Collection.class.equals(definitionClass) || List.class.equals(definitionClass) || definitionClass.getName().startsWith("java.util.Arrays")) {
+		if (definitionClass == null || List.class.isAssignableFrom(definitionClass) || Collection.class.equals(definitionClass)) {
 			return new ArrayList(size);
 		}
-		// check interfaces
-		else if (Set.class.equals(definitionClass)) {
-			return new LinkedHashSet();
-		}
-		else if (SortedSet.class.equals(definitionClass)) {
+		else if (SortedSet.class.isAssignableFrom(definitionClass)) {
 			return new TreeSet();
 		}
-		else if (Deque.class.equals(definitionClass) || Queue.class.equals(definitionClass)) {
+		// check interfaces
+		else if (Set.class.isAssignableFrom(definitionClass)) {
+			return new LinkedHashSet();
+		}
+		else if (Deque.class.isAssignableFrom(definitionClass) || Queue.class.isAssignableFrom(definitionClass)) {
 			return new ArrayDeque();
 		}
 		else {
@@ -133,7 +133,7 @@ public class GenericCollectionHandlerProvider extends IntegerCollectionProviderB
 	@Override
 	public Class<?> getComponentType(Type type) {
 		if (!(type instanceof ParameterizedType)) {
-			throw new IllegalArgumentException("Raw collections are not supported, you need to add generics");
+			throw new IllegalArgumentException("Raw collections are not supported, you need to add generics to: " + type);
 		}
 		else {
 			Type result = ((ParameterizedType) type).getActualTypeArguments()[0];

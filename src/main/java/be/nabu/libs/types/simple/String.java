@@ -76,10 +76,12 @@ public class String extends BaseMarshallableSimpleType<java.lang.String> impleme
 		Set<Property<?>> set = new LinkedHashSet<Property<?>>();
 		SimpleType<?> actualTypeValue = ValueUtils.getValue(actualTypeProperty, values);
 		set.add(actualTypeProperty);
-		if (actualTypeValue != null)
+		if (actualTypeValue != null && !actualTypeValue.getClass().equals(this.getClass())) {
 			set.addAll(actualTypeValue.getSupportedProperties(values));
-		else
+		}
+		else {
 			set.addAll(super.getSupportedProperties(values));
+		}
 		return set;
 	}
 	

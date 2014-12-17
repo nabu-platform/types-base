@@ -1,17 +1,23 @@
 package be.nabu.libs.types.properties;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ServiceLoader;
+import java.util.Set;
 
+import be.nabu.libs.property.api.Enumerated;
+import be.nabu.libs.types.api.DefinedSimpleType;
 import be.nabu.libs.types.api.SimpleType;
 import be.nabu.libs.validator.api.ValidationMessage;
 import be.nabu.libs.validator.api.ValidationMessage.Severity;
 import be.nabu.libs.validator.api.Validator;
 
-public class ActualTypeProperty extends BaseProperty<SimpleType<?>> {
+public class ActualTypeProperty extends BaseProperty<SimpleType<?>> implements Enumerated<SimpleType<?>> {
 
-	private List<SimpleType<?>> availableSimpleTypes = new ArrayList<SimpleType<?>>();
+	private volatile static List<SimpleType<?>> availableSimpleTypes = new ArrayList<SimpleType<?>>();
 	
 	@Override
 	public String getName() {
@@ -20,10 +26,23 @@ public class ActualTypeProperty extends BaseProperty<SimpleType<?>> {
 
 	@SuppressWarnings("rawtypes")
 	public List<SimpleType<?>> getAvailableSimpleTypes() {
+		// this is currently limited to SPI because it is only used by the developer
+		// we may need to update this if it becomes necessary
 		if (availableSimpleTypes.isEmpty()) {
-			ServiceLoader<SimpleType> serviceLoader = ServiceLoader.load(SimpleType.class);
-			for (SimpleType simpleType : serviceLoader)
-				availableSimpleTypes.add(simpleType);
+			synchronized(availableSimpleTypes) {
+				if (availableSimpleTypes.isEmpty()) {
+					ServiceLoader<DefinedSimpleType> serviceLoader = ServiceLoader.load(DefinedSimpleType.class);
+					for (SimpleType simpleType : serviceLoader) {
+						availableSimpleTypes.add(simpleType);
+					}
+					Collections.sort(availableSimpleTypes, new Comparator<SimpleType>() {
+						@Override
+						public int compare(SimpleType arg0, SimpleType arg1) {
+							return arg0.getName().toLowerCase().compareTo(arg1.getName().toLowerCase());
+						}
+					});
+				}
+			}
 		}
 		return availableSimpleTypes;
 	}
@@ -64,4 +83,8 @@ public class ActualTypeProperty extends BaseProperty<SimpleType<?>> {
 		availableSimpleTypes.remove(simpleType);
 	}
 
+	@Override
+	public Set<SimpleType<?>> getEnumerations() {
+		return new LinkedHashSet<SimpleType<?>>(getAvailableSimpleTypes());
+	}
 }

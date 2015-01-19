@@ -27,6 +27,11 @@ abstract public class ElementImpl<T> extends BaseTypeInstance implements Element
 	
 	private ComplexType parent;
 	
+	/**
+	 * Cached values for quick access
+	 */
+	private String name, namespace;
+	
 	public ElementImpl(Type type, ComplexType parent, Value<?>...values) {
 		super(type);
 		this.parent = parent;
@@ -81,14 +86,31 @@ abstract public class ElementImpl<T> extends BaseTypeInstance implements Element
 	
 	@Override
 	public String getName() {
-		String name = ValueUtils.getValue(new NameProperty(), getProperties());
-		return name == null ? getType().getName(getProperties()) : name;
+		if (name == null) {
+			name = ValueUtils.getValue(new NameProperty(), getProperties());
+			if (name == null) {
+				name = getType().getName(getProperties());
+			}
+		}
+		return name;
 	}
 	@Override
 	public String getNamespace() {
-		String namespace = ValueUtils.getValue(new NamespaceProperty(), getProperties());
-		if (namespace == null && getParent() != null)
-			namespace = getParent().getNamespace();
+		if (namespace == null) {
+			namespace = ValueUtils.getValue(new NamespaceProperty(), getProperties());
+			if (namespace == null && getParent() != null) {
+				namespace = getParent().getNamespace();
+			}
+		}
 		return namespace;
 	}
+
+	@Override
+	public void setProperty(Value<?>... values) {
+		// reset cache
+		name = null;
+		namespace = null;
+		super.setProperty(values);
+	}
+	
 }

@@ -15,6 +15,8 @@ public class SimpleTypeWrapperImpl implements SimpleTypeWrapper {
 
 	private static Map<Class<?>, Class<?>> boxedTypes = new HashMap<Class<?>, Class<?>>();
 	
+	private Map<Class<?>, DefinedSimpleType<?>> resolvedTypes = new HashMap<Class<?>, DefinedSimpleType<?>>();
+	
 	static {
 		boxedTypes.put(boolean.class, Boolean.class);
 		boxedTypes.put(byte.class, Byte.class);
@@ -77,17 +79,25 @@ public class SimpleTypeWrapperImpl implements SimpleTypeWrapper {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public <T> DefinedSimpleType<T> wrap(Class<T> object) {
-		if (object.isPrimitive()) {
-			object = (Class<T>) boxedTypes.get(object);
+		if (!resolvedTypes.containsKey(object)) {
+			synchronized(resolvedTypes) {
+				if (!resolvedTypes.containsKey(object)) {
+					if (object.isPrimitive()) {
+						object = (Class<T>) boxedTypes.get(object);
+					}
+					for (DefinedSimpleType simpleType : getSimpleTypes()) {
+						if (simpleType.getInstanceClass().isAssignableFrom(object)) {
+							resolvedTypes.put(object, simpleType);
+							break;
+						}
+					}
+					// if it's an enumeration, just wrap it
+					if (!resolvedTypes.containsKey(object) && Enum.class.isAssignableFrom(object)) {
+						resolvedTypes.put(object, (DefinedSimpleType<T>) new be.nabu.libs.types.simple.Enum((Class<Enum>) object));
+					}
+				}
+			}
 		}
-		for (DefinedSimpleType simpleType : getSimpleTypes()) {
-			if (simpleType.getInstanceClass().isAssignableFrom(object))
-				return simpleType;
-		}
-		// if it's an enumeration, just wrap it
-		if (Enum.class.isAssignableFrom(object)) {
-			return (DefinedSimpleType<T>) new be.nabu.libs.types.simple.Enum((Class<Enum>) object);
-		}
-		return null;
+		return (DefinedSimpleType<T>) resolvedTypes.get(object);
 	}
 }

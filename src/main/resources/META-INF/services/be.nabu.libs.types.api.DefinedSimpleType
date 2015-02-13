@@ -14,3 +14,5 @@ be.nabu.libs.types.simple.Date
 be.nabu.libs.types.simple.Class
 be.nabu.libs.types.simple.InputStream
 be.nabu.libs.types.simple.UUID
+be.nabu.libs.types.simple.Timezone
+be.nabu.libs.types.simple.Charset

@@ -92,6 +92,7 @@ public class TypeConverterImpl implements TypeConverter {
 		else
 			return null;
 	}
+	
 	@Override
 	public boolean canConvert(TypeInstance from, TypeInstance to) {
 		boolean canConvert = getProvider(from, to) != null;

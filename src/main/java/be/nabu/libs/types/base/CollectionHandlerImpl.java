@@ -3,7 +3,9 @@ package be.nabu.libs.types.base;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ServiceLoader;
 
 import be.nabu.libs.types.api.CollectionHandler;
@@ -12,6 +14,8 @@ import be.nabu.libs.types.api.CollectionHandlerProvider;
 public class CollectionHandlerImpl implements CollectionHandler {
 
 	private List<CollectionHandlerProvider<?, ?>> handlers = new ArrayList<CollectionHandlerProvider<?, ?>>();
+	
+	private Map<Class<?>, CollectionHandlerProvider<?, ?>> providers = new HashMap<Class<?>, CollectionHandlerProvider<?, ?>>();
 	
 	public void addCollectionHandler(CollectionHandlerProvider<?, ?> handler) {
 		handlers.add(handler);
@@ -58,11 +62,19 @@ public class CollectionHandlerImpl implements CollectionHandler {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public <T, V> CollectionHandlerProvider<T, V> getHandler(Class<T> clazz) {
-		for (CollectionHandlerProvider handler : getHandlers()) {
-			if (handler.getCollectionClass().isAssignableFrom(clazz))
-				return handler;
+		if (!providers.containsKey(clazz)) {
+			synchronized(providers) {
+				if (!providers.containsKey(clazz)) {
+					for (CollectionHandlerProvider handler : getHandlers()) {
+						if (handler.getCollectionClass().isAssignableFrom(clazz)) {
+							providers.put(clazz, handler);
+							break;
+						}
+					}
+				}
+			}
 		}
-		return null;
+		return (CollectionHandlerProvider<T, V>) providers.get(clazz);
 	}
 
 }

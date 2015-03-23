@@ -195,7 +195,7 @@ public class TimeFormat extends DateFormat {
 		String formatted = formatter.format(date);
 		
 		// the timezone is expressed in "+-xxxx" and should become "+-xx:xx"
-		if (forceMilliseconds)
+		if (forceTimeZoneInString)
 			formatted = formatted.replaceAll("^(.*)(\\+|-)([0-9]{2})([0-9]{2})$", "$1$2$3:$4");
 		
 		return formatted;

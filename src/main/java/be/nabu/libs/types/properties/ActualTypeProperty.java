@@ -17,6 +17,12 @@ import be.nabu.libs.validator.api.Validator;
 
 public class ActualTypeProperty extends BaseProperty<SimpleType<?>> implements Enumerated<SimpleType<?>> {
 
+	private static ActualTypeProperty instance = new ActualTypeProperty();
+	
+	public static ActualTypeProperty getInstance() {
+		return instance;
+	}
+	
 	private volatile static List<SimpleType<?>> availableSimpleTypes = new ArrayList<SimpleType<?>>();
 	
 	@Override

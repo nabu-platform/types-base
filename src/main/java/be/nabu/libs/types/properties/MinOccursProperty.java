@@ -3,6 +3,13 @@ package be.nabu.libs.types.properties;
 import be.nabu.libs.property.api.ComparableProperty;
 
 public class MinOccursProperty extends OccursProperty implements ComparableProperty<Integer> {
+	
+	private static MinOccursProperty instance = new MinOccursProperty();
+	
+	public static MinOccursProperty getInstance() {
+		return instance;
+	}
+	
 	@Override
 	public String getName() {
 		return "minOccurs";

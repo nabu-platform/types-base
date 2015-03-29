@@ -1,9 +1,35 @@
 package be.nabu.libs.types.properties;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import be.nabu.libs.property.api.ComparableProperty;
+import be.nabu.libs.property.api.Enumerated;
 
-public class FormatProperty extends SimpleProperty<String> implements ComparableProperty<String> {
+public class FormatProperty extends SimpleProperty<String> implements ComparableProperty<String>, Enumerated<String> {
 
+	private static FormatProperty instance = new FormatProperty();
+
+	private static Set<String> available; static {
+		available = new LinkedHashSet<String>();
+		available.add("dateTime");
+		available.add("date");
+		available.add("time");
+		available.add("gDay");
+		available.add("gMonth");
+		available.add("gYear");
+		available.add("gMonthDay");
+		available.add("gYearMonth");
+		available.add("yyyy/MM");
+		available.add("yyyy/MM/dd");
+		available.add("dd/MM/yyyy");
+		available.add("HH:mm");
+	}
+	
+	public static FormatProperty getInstance() {
+		return instance;
+	}
+	
 	public FormatProperty() {
 		super(String.class);
 	}
@@ -24,4 +50,9 @@ public class FormatProperty extends SimpleProperty<String> implements Comparable
 		return true;
 	}
 
+	@Override
+	public Set<String> getEnumerations() {
+		return available;
+	}
+	
 }

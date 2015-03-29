@@ -20,7 +20,7 @@ public class ListCollectionHandlerProvider extends IntegerCollectionProviderBase
 	@Override
 	public List set(List collection, Integer index, Object value) {
 		if (collection.size() < index) {
-			collection.addAll(Arrays.asList(new Object[index + 1 - collection.size()]));
+			collection.addAll(Arrays.asList(new Object[index - collection.size()]));
 			collection.add(value);
 		}
 		else if (collection.size() == index) {
@@ -34,7 +34,7 @@ public class ListCollectionHandlerProvider extends IntegerCollectionProviderBase
 
 	@Override
 	public Object get(List collection, Integer index) {
-		return collection.get(index);
+		return index >= collection.size() ? null : collection.get(index);
 	}
 
 	@Override
@@ -44,7 +44,9 @@ public class ListCollectionHandlerProvider extends IntegerCollectionProviderBase
 
 	@Override
 	public List delete(List collection, Integer index) {
-		collection.remove(index);
+		if (index < collection.size()) {
+			collection.remove(index);
+		}
 		return collection;
 	}
 

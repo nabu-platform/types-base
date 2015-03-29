@@ -83,6 +83,9 @@ public class TypeConverterImpl implements TypeConverter {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public <T> T convert(Object instance, TypeInstance from, TypeInstance to) {
+		if (from.getType().equals(to.getType())) {
+			return (T) instance;
+		}
 		TypeConverterProvider bestProvider = getProvider(from, to);
 		if (bestProvider != null)
 			return (T) bestProvider.convert(instance, from.getProperties(), to.getProperties());
@@ -95,7 +98,7 @@ public class TypeConverterImpl implements TypeConverter {
 	
 	@Override
 	public boolean canConvert(TypeInstance from, TypeInstance to) {
-		boolean canConvert = getProvider(from, to) != null;
+		boolean canConvert = from.getType().equals(to.getType()) ? true : getProvider(from, to) != null;
 		// if we can't do advanced type conversion, perhaps we can do basic conversion
 		if (!canConvert && from.getType() instanceof SimpleType && to.getType() instanceof SimpleType)
 			return getConverter().canConvert(((SimpleType<?>) from.getType()).getInstanceClass(), ((SimpleType<?>) to.getType()).getInstanceClass());

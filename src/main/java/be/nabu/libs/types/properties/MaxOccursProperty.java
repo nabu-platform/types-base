@@ -3,6 +3,13 @@ package be.nabu.libs.types.properties;
 import be.nabu.libs.property.api.ComparableProperty;
 
 public class MaxOccursProperty extends OccursProperty implements ComparableProperty<Integer> {
+	
+	private static MaxOccursProperty instance = new MaxOccursProperty();
+	
+	public static MaxOccursProperty getInstance() {
+		return instance;
+	}
+	
 	@Override
 	public String getName() {
 		return "maxOccurs";

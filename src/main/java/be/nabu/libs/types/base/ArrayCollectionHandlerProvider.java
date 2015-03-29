@@ -11,8 +11,15 @@ import be.nabu.libs.types.IntegerCollectionProviderBase;
 
 public class ArrayCollectionHandlerProvider extends IntegerCollectionProviderBase<Object[]> {
 
+	private Class<? extends Object[]> arrayClazz;
+
 	public ArrayCollectionHandlerProvider() {
 		super(Object[].class);
+	}
+	
+	public ArrayCollectionHandlerProvider(Class<? extends Object[]> arrayClazz) {
+		super(Object[].class);
+		this.arrayClazz = arrayClazz;
 	}
 
 	@Override
@@ -35,7 +42,10 @@ public class ArrayCollectionHandlerProvider extends IntegerCollectionProviderBas
 
 	@Override
 	public Object[] create(Class<? extends Object[]> definitionClass, int size) {
-		return (Object[]) Array.newInstance(definitionClass.getComponentType(), size);
+		if (definitionClass == null) {
+			definitionClass = arrayClazz;
+		}
+		return (Object[]) Array.newInstance(definitionClass.isArray() ? definitionClass.getComponentType() : definitionClass, size);
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

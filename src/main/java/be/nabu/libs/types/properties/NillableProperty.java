@@ -5,6 +5,12 @@ import be.nabu.libs.property.api.PropertyWithDefault;
 
 public class NillableProperty extends SimpleProperty<Boolean> implements PropertyWithDefault<Boolean>, ComparableProperty<Boolean> {
 
+	private static NillableProperty instance = new NillableProperty();
+	
+	public static NillableProperty getInstance() {
+		return instance;
+	}
+	
 	public NillableProperty() {
 		super(Boolean.class);
 	}

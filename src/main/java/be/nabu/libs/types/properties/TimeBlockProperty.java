@@ -9,6 +9,12 @@ import be.nabu.libs.validator.api.Validator;
 
 public class TimeBlockProperty extends BaseProperty<TimeBlock> implements Enumerated<TimeBlock> {
 	
+	private static TimeBlockProperty instance = new TimeBlockProperty();
+	
+	public static TimeBlockProperty getInstance() {
+		return instance;
+	}
+	
 	private Set<TimeBlock> enumerations = new HashSet<TimeBlock>(Arrays.asList(TimeBlock.values()));
 	
 	@Override

@@ -80,7 +80,7 @@ abstract public class ElementImpl<T> extends BaseTypeInstance implements Element
 		return properties;
 	}
 	
-	protected Set<Property<?>> getBlockedProperties() {
+	public Set<Property<?>> getBlockedProperties() {
 		return blockedProperties;
 	}
 	

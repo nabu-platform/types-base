@@ -4,6 +4,12 @@ import be.nabu.libs.property.api.ComparableProperty;
 
 public class CommentProperty extends SimpleProperty<String> implements ComparableProperty<String> {
 
+	private static CommentProperty instance = new CommentProperty();
+	
+	public static CommentProperty getInstance() {
+		return instance;
+	}
+	
 	public CommentProperty() {
 		super(String.class);
 	}

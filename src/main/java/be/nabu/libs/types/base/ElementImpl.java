@@ -18,7 +18,7 @@ import be.nabu.libs.types.api.Type;
 import be.nabu.libs.types.properties.NameProperty;
 import be.nabu.libs.types.properties.NamespaceProperty;
 import be.nabu.libs.types.properties.QualifiedProperty;
-import be.nabu.libs.validator.api.ValidationMessage;
+import be.nabu.libs.validator.api.Validation;
 import be.nabu.libs.validator.api.Validator;
 
 abstract public class ElementImpl<T> extends BaseTypeInstance implements Element<T> {
@@ -47,13 +47,13 @@ abstract public class ElementImpl<T> extends BaseTypeInstance implements Element
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public List<ValidationMessage> validate(T instance) {
+	public List<? extends Validation<?>> validate(T instance) {
 		CollectionHandlerProvider<T, ?> provider = (CollectionHandlerProvider<T, ?>) CollectionHandlerFactory.getInstance().getHandler().getHandler(instance.getClass());
 		// if there is a provider for it, it is a collection
 		if (provider != null) {
 			Validator<Collection<?>> collectionValidator = getType().createCollectionValidator(getProperties());
 			Collection<?> collection = provider.getAsCollection(instance);
-			List<ValidationMessage> messages = new ArrayList<ValidationMessage>(collectionValidator.validate(collection));
+			List<Validation<?>> messages = new ArrayList<Validation<?>>(collectionValidator.validate(collection));
 			Validator validator = getType().createValidator(getProperties());
 			for (Object item : collection)
 				messages.addAll(validator.validate(item));

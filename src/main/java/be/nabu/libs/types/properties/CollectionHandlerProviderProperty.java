@@ -8,6 +8,12 @@ import be.nabu.libs.types.api.CollectionHandlerProvider;
 @SuppressWarnings("rawtypes")
 public class CollectionHandlerProviderProperty extends SimpleProperty<CollectionHandlerProvider> {
 
+	private static CollectionHandlerProviderProperty instance = new CollectionHandlerProviderProperty();
+	
+	public static CollectionHandlerProviderProperty getInstance() {
+		return instance;
+	}
+	
 	public CollectionHandlerProviderProperty() {
 		super(CollectionHandlerProvider.class);
 	}

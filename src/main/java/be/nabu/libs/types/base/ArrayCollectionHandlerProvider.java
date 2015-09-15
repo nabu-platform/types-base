@@ -1,6 +1,8 @@
 package be.nabu.libs.types.base;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +60,17 @@ public class ArrayCollectionHandlerProvider extends IntegerCollectionProviderBas
 
 	@Override
 	public Class<?> getComponentType(Type type) {
-		if (!(type instanceof Class))
+		// generics array
+		if (type instanceof GenericArrayType) {
+			Type genericComponentType = ((GenericArrayType) type).getGenericComponentType();
+			if (genericComponentType instanceof ParameterizedType) {
+				return (Class<?>) ((ParameterizedType) genericComponentType).getRawType();
+			}
+			else {
+				return (Class<?>) genericComponentType;
+			}
+		}
+		else if (!(type instanceof Class))
 			throw new IllegalArgumentException("Need to pass along an array");
 		else
 			return ((Class<?>) type).getComponentType();

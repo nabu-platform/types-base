@@ -47,12 +47,14 @@ abstract public class BaseType<T> implements ModifiableType {
 	@Override
 	public Set<Property<?>> getSupportedProperties(Value<?>...properties) {
 		Set<Property<?>> set = new LinkedHashSet<Property<?>>();
-		set.add(new NameProperty());
-		set.add(new NamespaceProperty());
-		set.add(new CommentProperty());
-		set.add(new MinOccursProperty());
-		set.add(new MaxOccursProperty());
-		set.add(new NillableProperty());
+		set.add(NameProperty.getInstance());
+		set.add(NamespaceProperty.getInstance());
+		set.add(CommentProperty.getInstance());
+		set.add(MinOccursProperty.getInstance());
+		set.add(MaxOccursProperty.getInstance());
+		set.add(NillableProperty.getInstance());
+		// add any properties already set
+		set.addAll(this.properties.keySet());
 		return set;
 	}
 

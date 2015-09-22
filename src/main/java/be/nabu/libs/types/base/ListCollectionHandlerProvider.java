@@ -2,6 +2,7 @@ package be.nabu.libs.types.base;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -79,8 +80,12 @@ public class ListCollectionHandlerProvider extends IntegerCollectionProviderBase
 			if (result instanceof ParameterizedType) {
 				return (Class<?>) ((ParameterizedType) result).getRawType();
 			}
+			// using a generic parameter
+			else if (result instanceof TypeVariable) {
+				return Object.class;
+			}
 			else if (!Class.class.equals(result.getClass())) {
-				throw new IllegalArgumentException("The parameter " + result + " is not a class");
+				throw new IllegalArgumentException("The parameter " + result + " (of type " + result.getClass() + ") is not a class");
 			}
 			return (Class<?>) result;
 		}

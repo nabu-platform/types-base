@@ -74,7 +74,7 @@ public class ListCollectionHandlerProvider extends IntegerCollectionProviderBase
 	@Override
 	public Class<?> getComponentType(Type type) {
 		if (!(type instanceof ParameterizedType))
-			throw new IllegalArgumentException("Raw lists are not supported, you need to add generics");
+			throw new IllegalArgumentException("Raw lists are not supported, you need to add generics (" + type.getClass() + ")");
 		else {
 			Type result = ((ParameterizedType) type).getActualTypeArguments()[0];
 			if (result instanceof ParameterizedType) {

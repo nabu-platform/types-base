@@ -2,6 +2,7 @@ package be.nabu.libs.types.base;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -42,8 +43,20 @@ public class StringMapCollectionHandlerProvider<V> implements CollectionHandlerP
 	public Class<?> getComponentType(Type type) {
 		if (!(type instanceof ParameterizedType))
 			throw new IllegalArgumentException("Raw maps are not supported, you need to add generics");
-		else
-			return (Class<?>) ((ParameterizedType) type).getActualTypeArguments()[1];
+		else {
+			Type result = ((ParameterizedType) type).getActualTypeArguments()[0];
+			if (result instanceof ParameterizedType) {
+				return (Class<?>) ((ParameterizedType) result).getRawType();
+			}
+			// using a generic parameter
+			else if (result instanceof TypeVariable) {
+				return Object.class;
+			}
+			else if (!Class.class.equals(result.getClass())) {
+				throw new IllegalArgumentException("The parameter " + result + " (of type " + result.getClass() + ") is not a class");
+			}
+			return (Class<?>) result;
+		}
 	}
 
 	@Override

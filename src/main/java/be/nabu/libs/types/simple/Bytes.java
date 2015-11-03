@@ -50,4 +50,9 @@ public class Bytes extends BaseMarshallableSimpleType<byte[]> implements Unmarsh
 		return XML_SCHEMA;
 	}
 
+	@Override
+	public boolean isList(Value<?>...values) {
+		return false;
+	}
+
 }

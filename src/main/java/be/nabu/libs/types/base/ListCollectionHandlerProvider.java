@@ -3,6 +3,7 @@ package be.nabu.libs.types.base;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -81,7 +82,7 @@ public class ListCollectionHandlerProvider extends IntegerCollectionProviderBase
 				return (Class<?>) ((ParameterizedType) result).getRawType();
 			}
 			// using a generic parameter
-			else if (result instanceof TypeVariable) {
+			else if (result instanceof TypeVariable || result instanceof WildcardType) {
 				return Object.class;
 			}
 			else if (!Class.class.equals(result.getClass())) {

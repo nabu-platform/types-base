@@ -100,4 +100,16 @@ public class SimpleTypeWrapperImpl implements SimpleTypeWrapper {
 		}
 		return (DefinedSimpleType<T>) resolvedTypes.get(object);
 	}
+	@Override
+	public DefinedSimpleType<?> getByName(String name) {
+		if (name == null) {
+			return null;
+		}
+		for (DefinedSimpleType<?> simpleType : getSimpleTypes()) {
+			if (name.equals(simpleType.getName())) {
+				return simpleType;
+			}
+		}
+		return null;
+	}
 }

@@ -16,7 +16,7 @@ public class Float extends BaseComparableSimpleType<java.lang.Float> {
 
 	@Override
 	public java.lang.String marshal(java.lang.Float object, Value<?>...values) {
-		return object == null ? null : object.toString();
+		return object == null ? null : object.toString().replaceAll("[.0]+$", "");
 	}
 
 	@Override

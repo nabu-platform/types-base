@@ -21,7 +21,7 @@ public class Double extends BaseComparableSimpleType<java.lang.Double> {
 
 	@Override
 	public java.lang.String marshal(java.lang.Double object, Value<?>...values) {
-		return object == null ? null : object.toString();
+		return object == null ? null : object.toString().replaceAll("[.0]+$", "");
 	}
 
 	@Override

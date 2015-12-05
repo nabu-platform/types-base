@@ -2,6 +2,8 @@ package be.nabu.libs.types.base;
 
 import java.util.Set;
 
+import be.nabu.libs.converter.ConverterFactory;
+import be.nabu.libs.converter.api.Converter;
 import be.nabu.libs.property.ValueUtils;
 import be.nabu.libs.property.api.Property;
 import be.nabu.libs.property.api.Value;
@@ -33,20 +35,22 @@ abstract public class BaseComparableSimpleType<T extends Comparable<T>> extends 
 		T minInclusive = ValueUtils.getValue(new MinInclusiveProperty<T>(), values);
 		T maxExclusive = ValueUtils.getValue(new MaxExclusiveProperty<T>(), values);
 		T minExclusive = ValueUtils.getValue(new MinExclusiveProperty<T>(), values);
+		
+		Converter converter = ConverterFactory.getInstance().getConverter();
 		if (maxInclusive != null) {
-			max = maxInclusive;
+			max = converter.convert(maxInclusive, getInstanceClass());
 			isMaxInclusive = true;
 		}
 		else if (maxExclusive != null) {
-			max = maxExclusive;
+			max = converter.convert(maxExclusive, getInstanceClass());
 			isMaxInclusive = false;
 		}
 		if (minInclusive != null) {
-			min = minInclusive;
+			min = converter.convert(minInclusive, getInstanceClass());
 			isMinInclusive = true;
 		}
 		else if (minExclusive != null) {
-			min = minExclusive;
+			min = converter.convert(minExclusive, getInstanceClass());
 			isMinInclusive = false;
 		}
 		return new MultipleValidator<T>(

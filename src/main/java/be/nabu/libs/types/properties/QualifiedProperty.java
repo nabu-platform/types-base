@@ -4,6 +4,12 @@ import be.nabu.libs.property.api.PropertyWithDefault;
 
 public class QualifiedProperty extends SimpleProperty<Boolean> implements PropertyWithDefault<Boolean> {
 
+	private static QualifiedProperty instance = new QualifiedProperty();
+	
+	public static QualifiedProperty getInstance() {
+		return instance;
+	}
+	
 	public QualifiedProperty() {
 		super(Boolean.class);
 	}

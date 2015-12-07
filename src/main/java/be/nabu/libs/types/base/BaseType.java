@@ -33,14 +33,14 @@ abstract public class BaseType<T> implements ModifiableType {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Validator<T> createValidator(Value<?>...values) {
-		return (Validator<T>) new NillableValidator(ValueUtils.getValue(new NillableProperty(), values));
+		return (Validator<T>) new NillableValidator(ValueUtils.getValue(NillableProperty.getInstance(), values));
 	}
 
 	@Override
 	public Validator<Collection<?>> createCollectionValidator(Value<?>...values) {
 		return new OccurenceValidator<Collection<?>>(
-			ValueUtils.getValue(new MinOccursProperty(), values), 
-			ValueUtils.getValue(new MaxOccursProperty(), values)
+			ValueUtils.getValue(MinOccursProperty.getInstance(), values), 
+			ValueUtils.getValue(MaxOccursProperty.getInstance(), values)
 		);
 	}
 
@@ -60,8 +60,8 @@ abstract public class BaseType<T> implements ModifiableType {
 
 	@Override
 	public boolean isList(Value<?>...values) {
-		Integer maxOccurs = ValueUtils.getValue(new MaxOccursProperty(), values);
-		CollectionHandlerProvider<?, ?> collectionHandler = ValueUtils.getValue(new CollectionHandlerProviderProperty(), values);
+		Integer maxOccurs = ValueUtils.getValue(MaxOccursProperty.getInstance(), values);
+		CollectionHandlerProvider<?, ?> collectionHandler = ValueUtils.getValue(CollectionHandlerProviderProperty.getInstance(), values);
 		return collectionHandler != null || (maxOccurs != null && (maxOccurs == 0 || maxOccurs > 1));
 	}
 

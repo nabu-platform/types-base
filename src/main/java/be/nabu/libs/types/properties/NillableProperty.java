@@ -34,7 +34,7 @@ public class NillableProperty extends SimpleProperty<Boolean> implements Propert
 
 	@Override
 	public Boolean getDefault() {
-		return false;
+		return true;
 	}
 
 }

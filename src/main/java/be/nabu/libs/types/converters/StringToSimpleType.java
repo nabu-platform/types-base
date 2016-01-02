@@ -2,6 +2,7 @@ package be.nabu.libs.types.converters;
 
 import be.nabu.libs.converter.api.ConverterProvider;
 import be.nabu.libs.types.SimpleTypeWrapperFactory;
+import be.nabu.libs.types.api.DefinedSimpleType;
 import be.nabu.libs.types.api.SimpleType;
 import be.nabu.libs.types.api.SimpleTypeWrapper;
 
@@ -12,12 +13,19 @@ public class StringToSimpleType implements ConverterProvider<String, SimpleType>
 	
 	@Override
 	public SimpleType convert(String instance) {
-		try {
-			return instance == null ? null : wrapper.wrap(Class.forName(instance));
+		if (instance == null || instance.trim().isEmpty()) {
+			return null;
 		}
-		catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
+		DefinedSimpleType<?> simpleType = wrapper.getByName(instance);
+		if (simpleType == null) {
+			try {
+				simpleType = wrapper.wrap(Class.forName(instance));
+			}
+			catch (ClassNotFoundException e) {
+				throw new RuntimeException(e);
+			}
 		}
+		return simpleType;
 	}
 
 	@Override

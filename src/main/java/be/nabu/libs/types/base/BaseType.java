@@ -33,7 +33,17 @@ abstract public class BaseType<T> implements ModifiableType {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Validator<T> createValidator(Value<?>...values) {
-		return (Validator<T>) new NillableValidator(ValueUtils.getValue(NillableProperty.getInstance(), values));
+		Boolean nillable = null, optional = false;
+		for (Value<?> value : values) {
+			if (value.getProperty().equals(NillableProperty.getInstance())) {
+				nillable = (Boolean) value.getValue();
+			}
+			else if (value.getProperty().equals(MinOccursProperty.getInstance())) {
+				Integer minOccurs = (Integer) value.getValue();
+				optional = minOccurs != null && minOccurs == 0;
+			}
+		}
+		return (Validator<T>) new NillableValidator(nillable == null ? optional : nillable);
 	}
 
 	@Override

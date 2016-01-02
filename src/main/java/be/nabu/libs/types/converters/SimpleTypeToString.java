@@ -1,6 +1,7 @@
 package be.nabu.libs.types.converters;
 
 import be.nabu.libs.converter.api.ConverterProvider;
+import be.nabu.libs.types.api.DefinedSimpleType;
 import be.nabu.libs.types.api.SimpleType;
 
 @SuppressWarnings("rawtypes")
@@ -8,7 +9,15 @@ public class SimpleTypeToString implements ConverterProvider<SimpleType, String>
 	
 	@Override
 	public String convert(SimpleType instance) {
-		return instance == null ? null : instance.getInstanceClass().getName();
+		if (instance == null) {
+			return null;
+		}
+		else if (instance instanceof DefinedSimpleType) {
+			return ((DefinedSimpleType) instance).getId();
+		}
+		else {
+			return instance.getInstanceClass().getName();
+		}
 	}
 
 	@Override

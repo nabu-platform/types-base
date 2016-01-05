@@ -44,7 +44,7 @@ public class StringMapCollectionHandlerProvider<V> implements CollectionHandlerP
 		if (!(type instanceof ParameterizedType))
 			throw new IllegalArgumentException("Raw maps are not supported, you need to add generics");
 		else {
-			Type result = ((ParameterizedType) type).getActualTypeArguments()[0];
+			Type result = ((ParameterizedType) type).getActualTypeArguments()[1];
 			if (result instanceof ParameterizedType) {
 				return (Class<?>) ((ParameterizedType) result).getRawType();
 			}

@@ -102,7 +102,7 @@ public class SimpleTypeWrapperImpl implements SimpleTypeWrapper {
 	}
 	@Override
 	public DefinedSimpleType<?> getByName(String name) {
-		if (name == null) {
+		if (name == null || name.startsWith("[")) {
 			return null;
 		}
 		for (DefinedSimpleType<?> simpleType : getSimpleTypes()) {

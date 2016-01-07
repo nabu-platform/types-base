@@ -1,5 +1,6 @@
 package be.nabu.libs.types.base;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -75,7 +76,7 @@ abstract public class BaseMarshallableSimpleType<T> extends BaseSimpleType<T> im
 		@SuppressWarnings("unchecked")
 		@Override
 		public List<ValidationMessage> validate(T instance) {
-			return stringValidator.validate(BaseMarshallableSimpleType.this.marshal(instance, values));
+			return instance == null ? new ArrayList<ValidationMessage>() : stringValidator.validate(BaseMarshallableSimpleType.this.marshal(instance, values));
 		}
 
 		@Override

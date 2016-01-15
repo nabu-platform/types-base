@@ -82,4 +82,9 @@ public class StringMapCollectionHandlerProvider<V> implements CollectionHandlerP
 		return collection == null ? new HashSet<String>() : collection.keySet();
 	}
 
+	@Override
+	public Class<String> getIndexClass() {
+		return String.class;
+	}
+	
 }

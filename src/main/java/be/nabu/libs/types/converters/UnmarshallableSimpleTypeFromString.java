@@ -25,7 +25,10 @@ public class UnmarshallableSimpleTypeFromString implements Converter {
 		if (arg0 instanceof String) {
 			DefinedSimpleType<?> wrap = wrapper.wrap(arg1);
 			if (wrap instanceof Unmarshallable) {
-				return (T) ((Unmarshallable) wrap).unmarshal((String) arg0);
+				Object unmarshal = ((Unmarshallable) wrap).unmarshal((String) arg0);
+				if (unmarshal != null && arg1.isAssignableFrom(unmarshal.getClass())) {
+					return (T) unmarshal;
+				}
 			}
 		}
 		return null;

@@ -19,3 +19,5 @@ be.nabu.libs.types.properties.TimezoneProperty
 be.nabu.libs.types.properties.QualifiedProperty
 be.nabu.libs.types.properties.NameProperty
 be.nabu.libs.types.properties.NamespaceProperty
+be.nabu.libs.types.properties.HiddenProperty
+be.nabu.libs.types.properties.TemporaryProperty

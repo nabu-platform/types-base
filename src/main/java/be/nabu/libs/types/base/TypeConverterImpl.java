@@ -48,6 +48,7 @@ public class TypeConverterImpl implements TypeConverter {
 	@SuppressWarnings("unchecked")
 	protected List<TypeConverterProvider> getProviders() {
 		if (providers.isEmpty()) {
+			List<TypeConverterProvider> providers = new ArrayList<TypeConverterProvider>();
 			try {
 				// let's try this with custom service loading based on a configuration
 				Class<?> clazz = getClass().getClassLoader().loadClass("be.nabu.utils.services.ServiceLoader");
@@ -76,6 +77,7 @@ public class TypeConverterImpl implements TypeConverter {
 					providers.add(provider);
 				}
 			}
+			this.providers = providers;
 		}
 		return providers;
 	}

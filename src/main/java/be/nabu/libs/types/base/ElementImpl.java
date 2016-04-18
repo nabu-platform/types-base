@@ -73,9 +73,9 @@ abstract public class ElementImpl<T> extends BaseTypeInstance implements Element
 	@Override
 	public Set<Property<?>> getSupportedProperties() {
 		Set<Property<?>> properties = getType().getSupportedProperties(getProperties());
-		properties.add(new QualifiedProperty());
-		properties.add(new NameProperty());
-		properties.add(new NamespaceProperty());
+		properties.add(QualifiedProperty.getInstance());
+		properties.add(NameProperty.getInstance());
+		properties.add(NamespaceProperty.getInstance());
 		properties.removeAll(blockedProperties);
 		return properties;
 	}

@@ -13,6 +13,7 @@ import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.api.CollectionHandlerProvider;
 import be.nabu.libs.types.api.ModifiableType;
 import be.nabu.libs.types.api.Type;
+import be.nabu.libs.types.properties.AliasProperty;
 import be.nabu.libs.types.properties.CollectionHandlerProviderProperty;
 import be.nabu.libs.types.properties.CommentProperty;
 import be.nabu.libs.types.properties.MaxOccursProperty;
@@ -57,6 +58,7 @@ abstract public class BaseType<T> implements ModifiableType {
 	@Override
 	public Set<Property<?>> getSupportedProperties(Value<?>...properties) {
 		Set<Property<?>> set = new LinkedHashSet<Property<?>>();
+		set.add(AliasProperty.getInstance());
 		set.add(NameProperty.getInstance());
 		set.add(NamespaceProperty.getInstance());
 		set.add(CommentProperty.getInstance());

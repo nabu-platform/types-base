@@ -5,7 +5,7 @@ import java.util.List;
 public class EnumerationProperty<T> extends SimpleProperty<List<T>> {
 
 	@SuppressWarnings("rawtypes")
-	private static Class list() {
+	static Class list() {
 		return List.class;
 	}
 	

@@ -5,6 +5,15 @@ import be.nabu.libs.types.api.KeyValuePair;
 public class KeyValuePairImpl implements KeyValuePair {
 
 	private String key, value;
+	
+	public KeyValuePairImpl() {
+		// auto construct
+	}
+
+	public KeyValuePairImpl(String key, String value) {
+		this.key = key;
+		this.value = value;
+	}
 
 	@Override
 	public String getKey() {

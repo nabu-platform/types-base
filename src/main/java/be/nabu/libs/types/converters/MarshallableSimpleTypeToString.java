@@ -1,12 +1,12 @@
 package be.nabu.libs.types.converters;
 
-import be.nabu.libs.converter.api.Converter;
+import be.nabu.libs.converter.api.PrioritizedConverter;
 import be.nabu.libs.types.SimpleTypeWrapperFactory;
 import be.nabu.libs.types.api.DefinedSimpleType;
 import be.nabu.libs.types.api.Marshallable;
 import be.nabu.libs.types.api.SimpleTypeWrapper;
 
-public class MarshallableSimpleTypeToString implements Converter {
+public class MarshallableSimpleTypeToString implements PrioritizedConverter {
 
 	private SimpleTypeWrapper wrapper = SimpleTypeWrapperFactory.getInstance().getWrapper();
 	
@@ -29,6 +29,11 @@ public class MarshallableSimpleTypeToString implements Converter {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int getPriority() {
+		return -1;
 	}
 
 }

@@ -1,8 +1,8 @@
 package be.nabu.libs.types.base;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +21,7 @@ import be.nabu.libs.validator.api.ValidationMessage.Severity;
 public abstract class BaseComplexType<T> extends BaseType<T> implements ModifiableComplexType {
 	
 	private List<Group> groups = new ArrayList<Group>();
-	private Map<String, Element<?>> elements = new HashMap<String, Element<?>>();
+	private Map<String, Element<?>> elements = new LinkedHashMap<String, Element<?>>();
 	
 	public BaseComplexType() {
 		setName("anonymous");

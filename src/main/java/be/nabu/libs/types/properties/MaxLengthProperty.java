@@ -3,6 +3,12 @@ package be.nabu.libs.types.properties;
 import be.nabu.libs.property.api.ComparableProperty;
 
 public class MaxLengthProperty extends SimpleProperty<Integer> implements ComparableProperty<Integer> {
+	
+	private static MaxLengthProperty instance = new MaxLengthProperty();
+	
+	public static MaxLengthProperty getInstance() {
+		return instance;
+	}
 
 	public MaxLengthProperty() {
 		super(Integer.class);

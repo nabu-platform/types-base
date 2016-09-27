@@ -4,6 +4,12 @@ import be.nabu.libs.property.api.ComparableProperty;
 
 public class MinLengthProperty extends SimpleProperty<Integer> implements ComparableProperty<Integer> {
 
+	private static MinLengthProperty instance = new MinLengthProperty();
+	
+	public static MinLengthProperty getInstance() {
+		return instance;
+	}
+	
 	public MinLengthProperty() {
 		super(Integer.class);
 	}

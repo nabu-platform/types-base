@@ -1,9 +1,0 @@
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="be.nabu.libs.types.simple.InputStream">
-	
-	<implementation class="be.nabu.libs.types.simple.InputStream" />
-	
-	<service>
-		<provide interface="be.nabu.libs.types.api.DefinedSimpleType"/>
-	</service>
-
-</scr:component>

@@ -1,9 +1,0 @@
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="be.nabu.libs.types.properties.CountryProperty">
-	
-	<implementation class="be.nabu.libs.types.properties.CountryProperty" />
-	
-	<service>
-		<provide interface="be.nabu.libs.property.api.Property"/>
-	</service>
-
-</scr:component>

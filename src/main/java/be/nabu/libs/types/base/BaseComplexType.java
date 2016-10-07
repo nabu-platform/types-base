@@ -5,16 +5,13 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import be.nabu.libs.property.ValueUtils;
-import be.nabu.libs.property.api.Property;
 import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.api.Element;
 import be.nabu.libs.types.api.Group;
 import be.nabu.libs.types.api.ModifiableComplexType;
 import be.nabu.libs.types.properties.AttributeQualifiedDefaultProperty;
-import be.nabu.libs.types.properties.CollectionNameProperty;
 import be.nabu.libs.types.properties.ElementQualifiedDefaultProperty;
 import be.nabu.libs.types.properties.NameProperty;
 import be.nabu.libs.types.properties.NamespaceProperty;
@@ -53,13 +50,6 @@ public abstract class BaseComplexType<T> extends BaseType<T> implements Modifiab
 	@Override
 	public Group[] getGroups() {
 		return groups.toArray(new Group[groups.size()]);
-	}
-
-	@Override
-	public Set<Property<?>> getSupportedProperties(Value<?>...properties) {
-		Set<Property<?>> set = super.getSupportedProperties(properties);
-		set.add(CollectionNameProperty.getInstance());
-		return set;
 	}
 	
 	@Override

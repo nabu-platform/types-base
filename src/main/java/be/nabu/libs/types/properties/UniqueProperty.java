@@ -1,9 +1,8 @@
 package be.nabu.libs.types.properties;
 
 import be.nabu.libs.property.api.ComparableProperty;
-import be.nabu.libs.property.api.PropertyWithDefault;
 
-public class UniqueProperty extends SimpleProperty<Boolean> implements PropertyWithDefault<Boolean>, ComparableProperty<Boolean> {
+public class UniqueProperty extends SimpleProperty<Boolean> implements ComparableProperty<Boolean> {
 
 	private static UniqueProperty instance = new UniqueProperty();
 	
@@ -22,19 +21,15 @@ public class UniqueProperty extends SimpleProperty<Boolean> implements PropertyW
 
 	@Override
 	public boolean isSubset(Boolean subsetValue, Boolean broaderValue) {
-		if (broaderValue == null)
-			broaderValue = getDefault();
-		if (subsetValue == null)
-			subsetValue = getDefault();
-		
+		if (broaderValue == null) {
+			broaderValue = false;
+		}
+		if (subsetValue == null) {
+			subsetValue = false;
+		}
 		// if the broader is unique, it doesn't matter what the subset is
 		// however if the broadervalue is false, the subsetvalue must be false as well
 		return broaderValue || !subsetValue;
-	}
-
-	@Override
-	public Boolean getDefault() {
-		return true;
 	}
 
 }

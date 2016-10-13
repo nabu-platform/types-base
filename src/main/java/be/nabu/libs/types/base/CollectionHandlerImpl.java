@@ -65,12 +65,15 @@ public class CollectionHandlerImpl implements CollectionHandler {
 		if (!providers.containsKey(clazz)) {
 			synchronized(providers) {
 				if (!providers.containsKey(clazz)) {
+					CollectionHandlerProvider current = null;
 					for (CollectionHandlerProvider handler : getHandlers()) {
 						if (handler.getCollectionClass().isAssignableFrom(clazz)) {
-							providers.put(clazz, handler);
-							break;
+							if (current == null || current.getCollectionClass().isAssignableFrom(handler.getCollectionClass())) {
+								current = handler;
+							}
 						}
 					}
+					providers.put(clazz, current);
 				}
 			}
 		}

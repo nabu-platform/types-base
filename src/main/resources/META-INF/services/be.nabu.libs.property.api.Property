@@ -23,3 +23,5 @@ be.nabu.libs.types.properties.HiddenProperty
 be.nabu.libs.types.properties.TemporaryProperty
 be.nabu.libs.types.properties.CollectionNameProperty
 be.nabu.libs.types.properties.UniqueProperty
+be.nabu.libs.types.properties.PrimaryKeyProperty
+be.nabu.libs.types.properties.ForeignKeyProperty

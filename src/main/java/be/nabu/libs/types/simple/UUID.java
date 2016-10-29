@@ -3,11 +3,15 @@ package be.nabu.libs.types.simple;
 import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.api.Unmarshallable;
 import be.nabu.libs.types.base.BaseMarshallableSimpleType;
+import be.nabu.libs.types.base.ValueImpl;
+import be.nabu.libs.types.properties.PatternProperty;
 
 public class UUID extends BaseMarshallableSimpleType<java.util.UUID> implements Unmarshallable<java.util.UUID> {
 
 	public UUID() {
 		super(java.util.UUID.class);
+		// 6cac990b-5f6b-4d44-8a77-e8a5438afd56
+		setProperty(new ValueImpl<java.lang.String>(PatternProperty.getInstance(), "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|[0-9a-fA-F]{32}"));
 	}
 
 	@Override

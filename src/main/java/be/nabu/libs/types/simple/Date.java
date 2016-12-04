@@ -64,7 +64,7 @@ public class Date extends BaseComparableSimpleType<java.util.Date> implements Un
 
 	@Override
 	public java.lang.String getName(Value<?>...values) {
-		java.lang.String format = ValueUtils.getValue(new FormatProperty(), values);
+		java.lang.String format = ValueUtils.getValue(FormatProperty.getInstance(), values);
 		XSDFormat xsdFormat = XSDFormat.getXSDFormat(format);
 		if (xsdFormat != null)
 			return xsdFormat.getName();

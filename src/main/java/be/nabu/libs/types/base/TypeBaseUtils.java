@@ -1,6 +1,8 @@
 package be.nabu.libs.types.base;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import be.nabu.libs.converter.ConverterFactory;
@@ -12,6 +14,8 @@ import be.nabu.libs.types.api.CollectionHandlerProvider;
 import be.nabu.libs.types.api.ComplexContent;
 import be.nabu.libs.types.api.ComplexType;
 import be.nabu.libs.types.api.Element;
+import be.nabu.libs.types.api.KeyValuePair;
+import be.nabu.libs.types.utils.KeyValuePairImpl;
 
 public class TypeBaseUtils {
 	
@@ -22,6 +26,14 @@ public class TypeBaseUtils {
 		Map<String, String> current = new LinkedHashMap<String, String>();
 		toStringMap(current, null, content);
 		return current;
+	}
+	
+	public static List<KeyValuePair> toProperties(Map<String, String> map) {
+		List<KeyValuePair> pairs = new ArrayList<KeyValuePair>();
+		for (String key : map.keySet()) {
+			pairs.add(new KeyValuePairImpl(key, map.get(key)));
+		}
+		return pairs;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })

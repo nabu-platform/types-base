@@ -24,6 +24,10 @@ public class TimeBlockValidator implements Validator<Date> {
 	@Override
 	public List<ValidationMessage> validate(Date instance) {
 		List<ValidationMessage> messages = new ArrayList<ValidationMessage>();
+		// don't validate
+		if (timeBlock == null) {
+			return messages;
+		}
 		if (instance == null)
 			messages.add(new ValidationMessage(Severity.WARNING, "The date is null, its timeblock can not be validated"));
 		else {

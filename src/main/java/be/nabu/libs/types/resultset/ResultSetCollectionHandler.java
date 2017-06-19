@@ -159,8 +159,8 @@ public class ResultSetCollectionHandler implements CollectionHandlerProvider<Res
 	public static ComplexContent convert(ResultSet executeQuery, ComplexType resultType) {
 		ComplexContent result = resultType.newInstance();
 		int column = 1;
-		try {
-			for (Element<?> child : TypeUtils.getAllChildren(resultType)) {
+		for (Element<?> child : TypeUtils.getAllChildren(resultType)) {
+			try {
 				SimpleType<?> simpleType = (SimpleType<?>) child.getType();
 				Object value;
 				if (Date.class.isAssignableFrom(simpleType.getInstanceClass())) {
@@ -188,9 +188,9 @@ public class ResultSetCollectionHandler implements CollectionHandlerProvider<Res
 				// conversion should be handled by the result instance
 				result.set(child.getName(), value);
 			}
-		}
-		catch (SQLException e) {
-			throw new RuntimeException(e);
+			catch (Exception e) {
+				throw new RuntimeException("Could not set value for field: " + child.getName(), e);
+			}
 		}
 		return result;
 	}

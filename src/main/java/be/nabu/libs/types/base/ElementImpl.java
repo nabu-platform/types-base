@@ -13,7 +13,7 @@ import be.nabu.libs.types.BaseTypeInstance;
 import be.nabu.libs.types.CollectionHandlerFactory;
 import be.nabu.libs.types.api.CollectionHandlerProvider;
 import be.nabu.libs.types.api.ComplexType;
-import be.nabu.libs.types.api.Element;
+import be.nabu.libs.types.api.ModifiableElement;
 import be.nabu.libs.types.api.Type;
 import be.nabu.libs.types.properties.NameProperty;
 import be.nabu.libs.types.properties.NamespaceProperty;
@@ -21,7 +21,7 @@ import be.nabu.libs.types.properties.QualifiedProperty;
 import be.nabu.libs.validator.api.Validation;
 import be.nabu.libs.validator.api.Validator;
 
-abstract public class ElementImpl<T> extends BaseTypeInstance implements Element<T> {
+abstract public class ElementImpl<T> extends BaseTypeInstance implements ModifiableElement<T> {
 
 	private Set<Property<?>> blockedProperties = new HashSet<Property<?>>();
 	
@@ -113,4 +113,8 @@ abstract public class ElementImpl<T> extends BaseTypeInstance implements Element
 		super.setProperty(values);
 	}
 	
+	@Override
+	public void setParent(ComplexType parent) {
+		this.parent = parent;
+	}
 }

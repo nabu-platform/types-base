@@ -42,7 +42,7 @@ public class String extends BaseMarshallableSimpleType<java.lang.String> impleme
 	
 	@Override
 	public java.lang.String getName(Value<?>...values) {
-		return actualType == null ? "string" : actualType.getName();
+		return actualType == null ? "string" : actualType.getName(values);
 	}
 
 	@Override

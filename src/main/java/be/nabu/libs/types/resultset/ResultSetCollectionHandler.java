@@ -160,36 +160,38 @@ public class ResultSetCollectionHandler implements CollectionHandlerProvider<Res
 		ComplexContent result = resultType.newInstance();
 		int column = 1;
 		for (Element<?> child : TypeUtils.getAllChildren(resultType)) {
-			try {
-				SimpleType<?> simpleType = (SimpleType<?>) child.getType();
-				Object value;
-				if (Date.class.isAssignableFrom(simpleType.getInstanceClass())) {
-					String format = ValueUtils.getValue(FormatProperty.getInstance(), child.getProperties());
-					Granularity granularity = format == null ? Granularity.TIMESTAMP : DateUtils.getGranularity(format);
-					TimeZone timezone = ValueUtils.getValue(TimezoneProperty.getInstance(), child.getProperties());
-					Calendar calendar = Calendar.getInstance(timezone);
-					switch(granularity) {
-						case DATE:
-							value = executeQuery.getDate(column++, calendar);
-						break;
-						case TIME:
-							value = executeQuery.getTime(column++, calendar);
-						break;
-						case TIMESTAMP:
-							value = executeQuery.getTimestamp(column++, calendar);
-						break;
-						default:
-							throw new IllegalArgumentException("Unknown date granularity: " + granularity);
+			if (child.getType() instanceof SimpleType) {
+				try {
+					SimpleType<?> simpleType = (SimpleType<?>) child.getType();
+					Object value;
+					if (Date.class.isAssignableFrom(simpleType.getInstanceClass())) {
+						String format = ValueUtils.getValue(FormatProperty.getInstance(), child.getProperties());
+						Granularity granularity = format == null ? Granularity.TIMESTAMP : DateUtils.getGranularity(format);
+						TimeZone timezone = ValueUtils.getValue(TimezoneProperty.getInstance(), child.getProperties());
+						Calendar calendar = Calendar.getInstance(timezone);
+						switch(granularity) {
+							case DATE:
+								value = executeQuery.getDate(column++, calendar);
+							break;
+							case TIME:
+								value = executeQuery.getTime(column++, calendar);
+							break;
+							case TIMESTAMP:
+								value = executeQuery.getTimestamp(column++, calendar);
+							break;
+							default:
+								throw new IllegalArgumentException("Unknown date granularity: " + granularity);
+						}
 					}
+					else {
+						value = executeQuery.getObject(column++);
+					}
+					// conversion should be handled by the result instance
+					result.set(child.getName(), value);
 				}
-				else {
-					value = executeQuery.getObject(column++);
+				catch (Exception e) {
+					throw new RuntimeException("Could not set value for field: " + child.getName(), e);
 				}
-				// conversion should be handled by the result instance
-				result.set(child.getName(), value);
-			}
-			catch (Exception e) {
-				throw new RuntimeException("Could not set value for field: " + child.getName(), e);
 			}
 		}
 		return result;

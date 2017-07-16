@@ -1,6 +1,7 @@
 package be.nabu.libs.types.simple;
 
 import be.nabu.libs.property.api.Value;
+import be.nabu.libs.types.api.MarshalException;
 import be.nabu.libs.types.api.Unmarshallable;
 import be.nabu.libs.types.base.BaseMarshallableSimpleType;
 
@@ -22,6 +23,12 @@ public class Boolean extends BaseMarshallableSimpleType<java.lang.Boolean> imple
 
 	@Override
 	public java.lang.Boolean unmarshal(java.lang.String content, Value<?>...values) {
+		// the default boolean parsing in java is (surprisingly) too lenient
+		// if you try "new java.lang.Boolean('this is definitely not a boolean')" it will be the value false
+		// we want an exception indicating that what you sent is not a valid boolean in any way
+		if (content != null && !content.equalsIgnoreCase("true") && !content.equalsIgnoreCase("false")) {
+			throw new MarshalException("The string is not a correct boolean value: " + content);
+		}
 		return content == null ? null : new java.lang.Boolean(content);
 	}
 

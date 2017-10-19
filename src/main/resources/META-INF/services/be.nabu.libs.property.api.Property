@@ -26,3 +26,5 @@ be.nabu.libs.types.properties.UniqueProperty
 be.nabu.libs.types.properties.PrimaryKeyProperty
 be.nabu.libs.types.properties.ForeignKeyProperty
 be.nabu.libs.types.properties.AggregateProperty
+be.nabu.libs.types.properties.TokenProperty
+be.nabu.libs.types.properties.CollectionFormatProperty

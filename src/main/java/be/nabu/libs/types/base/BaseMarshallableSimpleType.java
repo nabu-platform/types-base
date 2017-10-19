@@ -8,6 +8,7 @@ import be.nabu.libs.property.ValueUtils;
 import be.nabu.libs.property.api.Property;
 import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.api.Marshallable;
+import be.nabu.libs.types.properties.CollectionFormatProperty;
 import be.nabu.libs.types.properties.EnumerationProperty;
 import be.nabu.libs.types.properties.LengthProperty;
 import be.nabu.libs.types.properties.MaxLengthProperty;
@@ -58,6 +59,7 @@ abstract public class BaseMarshallableSimpleType<T> extends BaseSimpleType<T> im
 		properties.add(new MinLengthProperty());
 		properties.add(new MaxLengthProperty());
 		properties.add(new LengthProperty());
+		properties.add(CollectionFormatProperty.getInstance());
 		return properties;
 	}
 	

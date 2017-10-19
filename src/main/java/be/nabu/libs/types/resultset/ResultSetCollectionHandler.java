@@ -159,6 +159,7 @@ public class ResultSetCollectionHandler implements CollectionHandlerProvider<Res
 	public static ComplexContent convert(ResultSet executeQuery, ComplexType resultType) {
 		ComplexContent result = resultType.newInstance();
 		int column = 1;
+		Element<?> keyValueChild = null;
 		for (Element<?> child : TypeUtils.getAllChildren(resultType)) {
 			if (child.getType() instanceof SimpleType) {
 				try {
@@ -192,6 +193,29 @@ public class ResultSetCollectionHandler implements CollectionHandlerProvider<Res
 				catch (Exception e) {
 					throw new RuntimeException("Could not set value for field: " + child.getName(), e);
 				}
+			}
+			// a list of key value pairs
+			else if (child.getType() instanceof ComplexType && child.getType().isList(child.getProperties()) && ((ComplexType) child.getType()).get("key") != null && ((ComplexType) child.getType()).get("value") != null) {
+				keyValueChild = child;
+			}
+		}
+		if (keyValueChild != null) {
+			try {
+				ResultSetMetaData metaData = executeQuery.getMetaData();
+				int columnCount = metaData.getColumnCount();
+				if (column < columnCount) {
+					for (int i = column; i < columnCount; i++) {
+						Object value = executeQuery.getObject(i);
+						if (value != null) {
+							String key = metaData.getColumnLabel(i);
+							result.set(keyValueChild.getName() + "[" + (i - column) + "]/key", key);
+							result.set(keyValueChild.getName() + "[" + (i - column) + "]/value", value);
+						}
+					}
+				}
+			}
+			catch (SQLException e) {
+				throw new RuntimeException(e);
 			}
 		}
 		return result;

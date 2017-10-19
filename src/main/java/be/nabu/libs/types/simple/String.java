@@ -14,6 +14,7 @@ import be.nabu.libs.types.api.TypeConverter;
 import be.nabu.libs.types.api.Unmarshallable;
 import be.nabu.libs.types.base.BaseMarshallableSimpleType;
 import be.nabu.libs.types.properties.ActualTypeProperty;
+import be.nabu.libs.types.properties.TokenProperty;
 import be.nabu.libs.validator.api.ValidationMessage;
 import be.nabu.libs.validator.api.ValidationMessage.Severity;
 import be.nabu.libs.validator.api.Validator;
@@ -52,7 +53,13 @@ public class String extends BaseMarshallableSimpleType<java.lang.String> impleme
 
 	@Override
 	public java.lang.String unmarshal(java.lang.String content, Value<?>...values) {
-		return content;
+		if (content == null) {
+			return content;
+		}
+		java.lang.Boolean isToken = ValueUtils.getValue(TokenProperty.getInstance(), values);
+		return isToken == null || !isToken
+			? content
+			: content.trim().replaceAll("[\t\n\r]+", " ").replaceAll("[ ]{2,}", " ");
 	}
 
 	/**
@@ -82,6 +89,7 @@ public class String extends BaseMarshallableSimpleType<java.lang.String> impleme
 		else {
 			set.addAll(super.getSupportedProperties(values));
 		}
+		set.add(TokenProperty.getInstance());
 		return set;
 	}
 	

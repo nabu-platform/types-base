@@ -21,7 +21,7 @@ public class Short extends BaseComparableSimpleType<java.lang.Short> {
 
 	@Override
 	public java.lang.Short unmarshal(java.lang.String content, Value<?>...values) {
-		return content == null ? null : new java.lang.Short(content);
+		return content == null || content.trim().isEmpty() ? null : new java.lang.Short(content);
 	}
 	
 	@Override

@@ -32,7 +32,7 @@ public class Boolean extends BaseMarshallableSimpleType<java.lang.Boolean> imple
 //		}
 		
 		// keep in sync with be.nabu.libs.converter.base.providers.StringToBoolean for consistent results cross environment
-		if (content == null) {
+		if (content == null || content.trim().isEmpty()) {
 			return null;
 		}
 		else if (content.matches("[0-9]+")) {

@@ -44,7 +44,7 @@ public class Double extends BaseComparableSimpleType<java.lang.Double> {
 
 	@Override
 	public java.lang.Double unmarshal(java.lang.String content, Value<?>...values) {
-		return content == null ? null : new java.lang.Double(content);
+		return content == null || content.trim().isEmpty() ? null : new java.lang.Double(content);
 	}
 	
 	@Override

@@ -14,7 +14,7 @@ public class StringToDate implements TypeConverterProvider {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T convert(Object instance, Value<?>[] sourceParameters, Value<?>... targetParameters) {
-		if (instance == null)
+		if (instance == null || instance.toString().trim().isEmpty())
 			return null;
 		SimpleType<?> actualType = ValueUtils.getValue(new ActualTypeProperty(), sourceParameters);
 		if (actualType != null) {

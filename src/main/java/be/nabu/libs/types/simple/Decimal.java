@@ -30,7 +30,7 @@ public class Decimal extends BaseComparableSimpleType<BigDecimal> {
 
 	@Override
 	public BigDecimal unmarshal(java.lang.String content, Value<?>...values) {
-		return content == null ? null : new BigDecimal(content);
+		return content == null || content.trim().isEmpty() ? null : new BigDecimal(content);
 	}
 
 	@Override

@@ -139,6 +139,9 @@ public class Date extends BaseComparableSimpleType<java.util.Date> implements Un
 
 	@Override
 	public java.util.Date unmarshal(java.lang.String content, Value<?>...values) {
+		if (content == null || content.trim().isEmpty()) {
+			return null;
+		}
 		DateFormat dateFormatter = createFormatter(values);
 		try {
 			if (dateFormatter instanceof TimeFormat) {

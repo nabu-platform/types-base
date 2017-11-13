@@ -57,7 +57,7 @@ public class Enum extends BaseMarshallableSimpleType<java.lang.Enum> implements 
 
 	@Override
 	public java.lang.Enum unmarshal(java.lang.String content, Value<?>... values) {
-		return content == null ? null : getValue(content, getInstanceClass().getEnumConstants());
+		return content == null || content.trim().isEmpty() ? null : getValue(content, getInstanceClass().getEnumConstants());
 	}
 
 	private java.lang.Enum getValue(java.lang.String value, java.lang.Enum...enums) {

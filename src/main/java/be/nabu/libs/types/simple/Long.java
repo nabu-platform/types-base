@@ -21,7 +21,7 @@ public class Long extends BaseComparableSimpleType<java.lang.Long> {
 
 	@Override
 	public java.lang.Long unmarshal(java.lang.String content, Value<?>...values) {
-		return content == null ? null : new java.lang.Long(content);
+		return content == null || content.trim().isEmpty() ? null : new java.lang.Long(content);
 	}
 
 	@Override

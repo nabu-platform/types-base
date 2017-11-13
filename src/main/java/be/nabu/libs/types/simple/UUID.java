@@ -32,13 +32,13 @@ public class UUID extends BaseMarshallableSimpleType<java.util.UUID> implements 
 	@Override
 	public java.util.UUID unmarshal(java.lang.String content, Value<?>... values) {
 		// an unformatted UUID, add formatting to enable parsing
-		if (content != null && content.indexOf('-') < 0) {
+		if (content != null && !content.trim().isEmpty() && content.indexOf('-') < 0) {
 			if (content.length() != 32) {
 				throw new IllegalArgumentException("The value is not a valid UUID: " + content);
 			}
 			content = content.substring(0, 8) + "-" + content.substring(8, 12) + "-" + content.substring(12, 16) + "-" + content.substring(16, 20) + "-" + content.substring(20);
 		}
-		return content == null ? null : java.util.UUID.fromString(content);
+		return content == null || content.trim().isEmpty() ? null : java.util.UUID.fromString(content);
 	}
 
 }

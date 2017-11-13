@@ -30,7 +30,7 @@ public class Integer extends BaseComparableSimpleType<BigInteger> {
 
 	@Override
 	public BigInteger unmarshal(java.lang.String content, Value<?>...values) {
-		return content == null ? null : new BigInteger(content);
+		return content == null || content.trim().isEmpty() ? null : new BigInteger(content);
 	}
 	
 	@Override

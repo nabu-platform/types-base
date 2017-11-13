@@ -28,7 +28,7 @@ public class Timezone extends BaseMarshallableSimpleType<TimeZone> implements Un
 	}
 
 	@Override
-	public TimeZone unmarshal(java.lang.String arg0, Value<?>... arg1) {
-		return arg0 == null ? null : TimeZone.getTimeZone(arg0);
+	public TimeZone unmarshal(java.lang.String content, Value<?>... arg1) {
+		return content == null || content.trim().isEmpty() ? null : TimeZone.getTimeZone(content);
 	}
 }

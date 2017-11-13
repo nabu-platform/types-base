@@ -39,7 +39,7 @@ public class Float extends BaseComparableSimpleType<java.lang.Float> {
 
 	@Override
 	public java.lang.Float unmarshal(java.lang.String content, Value<?>...values) {
-		return content == null ? null : new java.lang.Float(content);
+		return content == null || content.trim().isEmpty() ? null : new java.lang.Float(content);
 	}
 
 	@Override

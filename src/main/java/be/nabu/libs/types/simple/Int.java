@@ -21,7 +21,7 @@ public class Int extends BaseComparableSimpleType<java.lang.Integer> {
 
 	@Override
 	public java.lang.Integer unmarshal(java.lang.String content, Value<?>...values) {
-		return content == null ? null : new java.lang.Integer(content);
+		return content == null || content.trim().isEmpty() ? null : new java.lang.Integer(content);
 	}
 
 	@Override

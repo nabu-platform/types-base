@@ -26,7 +26,7 @@ public class Charset extends BaseMarshallableSimpleType<java.nio.charset.Charset
 	}
 
 	@Override
-	public java.nio.charset.Charset unmarshal(java.lang.String arg0, Value<?>... arg1) {
-		return arg0 == null ? null : java.nio.charset.Charset.forName(arg0);
+	public java.nio.charset.Charset unmarshal(java.lang.String content, Value<?>... arg1) {
+		return content == null || content.trim().isEmpty() ? null : java.nio.charset.Charset.forName(content);
 	}
 }

@@ -14,6 +14,7 @@ import be.nabu.libs.types.properties.LengthProperty;
 import be.nabu.libs.types.properties.MaxLengthProperty;
 import be.nabu.libs.types.properties.MinLengthProperty;
 import be.nabu.libs.types.properties.PatternProperty;
+import be.nabu.libs.types.properties.SynchronizationProperty;
 import be.nabu.libs.validator.EnumerationValidator;
 import be.nabu.libs.validator.LengthValidator;
 import be.nabu.libs.validator.MultipleValidator;
@@ -60,6 +61,7 @@ abstract public class BaseMarshallableSimpleType<T> extends BaseSimpleType<T> im
 		properties.add(new MaxLengthProperty());
 		properties.add(new LengthProperty());
 		properties.add(CollectionFormatProperty.getInstance());
+		properties.add(SynchronizationProperty.getInstance());
 		return properties;
 	}
 	

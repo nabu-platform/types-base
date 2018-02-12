@@ -1,12 +1,15 @@
 package be.nabu.libs.types.base;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import be.nabu.libs.converter.ConverterFactory;
 import be.nabu.libs.converter.api.Converter;
+import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.CollectionHandlerFactory;
 import be.nabu.libs.types.ComplexContentWrapperFactory;
 import be.nabu.libs.types.TypeUtils;
@@ -15,6 +18,9 @@ import be.nabu.libs.types.api.ComplexContent;
 import be.nabu.libs.types.api.ComplexType;
 import be.nabu.libs.types.api.Element;
 import be.nabu.libs.types.api.KeyValuePair;
+import be.nabu.libs.types.api.SimpleType;
+import be.nabu.libs.types.properties.FormatProperty;
+import be.nabu.libs.types.properties.PatternProperty;
 import be.nabu.libs.types.utils.KeyValuePairImpl;
 
 public class TypeBaseUtils {
@@ -77,4 +83,29 @@ public class TypeBaseUtils {
 		}
 	}
 
+	public static Map<String, String> getRegexes(Iterable<Element<?>> iterable) {
+		Map<String, String> regexes = new HashMap<String, String>();
+		if (iterable != null) {
+			for (Element<?> element : iterable) {
+				Value<String> patternProperty = element.getProperty(PatternProperty.getInstance());
+				Value<String> formatProperty = element.getProperty(FormatProperty.getInstance());
+				if (patternProperty != null && patternProperty.getValue() != null) {
+					regexes.put(element.getName(), patternProperty.getValue());
+				}
+				else if (formatProperty != null && formatProperty.getValue() != null && FormatProperty.regexes.containsKey(formatProperty.getValue())) {
+					regexes.put(element.getName(), FormatProperty.regexes.get(formatProperty.getValue()));
+				}
+				else if (element.getType() instanceof SimpleType) {
+					Class<?> clazz = ((SimpleType<?>) element.getType()).getInstanceClass();
+					if (Number.class.isAssignableFrom(clazz)) {
+						regexes.put(element.getName(), "[0-9.]+");
+					}
+					else if (UUID.class.isAssignableFrom(clazz)) {
+						regexes.put(element.getName(), "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|[0-9a-fA-F]{32}");
+					}
+				}
+			}
+		}
+		return regexes;
+	}
 }

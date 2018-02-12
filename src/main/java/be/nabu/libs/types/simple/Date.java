@@ -34,9 +34,9 @@ public class Date extends BaseComparableSimpleType<java.util.Date> implements Un
 		DATE_TIME("dateTime", null),
 		TIME("time", null),
 		DATE("date", "yyyy-MM-dd"),
-		DAY("gDay", "dd"),
-		MONTH("gMonth", "MM"),
-		MONTH_DAY("gMonthDay", "MM-dd"),
+		DAY("gDay", "---dd"),
+		MONTH("gMonth", "--MM"),
+		MONTH_DAY("gMonthDay", "--MM-dd"),
 		YEAR("gYear", "yyyy"),
 		YEAR_MONTH("gYearMonth", "yyyy-MM"),
 		;

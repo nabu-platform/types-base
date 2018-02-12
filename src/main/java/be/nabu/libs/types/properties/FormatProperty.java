@@ -1,6 +1,8 @@
 package be.nabu.libs.types.properties;
 
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import be.nabu.libs.property.api.ComparableProperty;
@@ -24,6 +26,22 @@ public class FormatProperty extends SimpleProperty<String> implements Comparable
 		available.add("yyyy/MM/dd");
 		available.add("dd/MM/yyyy");
 		available.add("HH:mm");
+	}
+	
+	public static Map<String, String> regexes = new HashMap<String, String>(); static {
+		String timezone = "(?:z|Z|[+-][0-9]{2}:[+-][0-9]{2}|)";
+		regexes.put("dateTime", "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+|)" + timezone);
+		regexes.put("date", "[0-9]{4}-[0-9]{2}-[0-9]{2}" + timezone);
+		regexes.put("time", "[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]+|)" + timezone);
+		regexes.put("gDay", "---[0-9]{2}" + timezone);
+		regexes.put("gMonth", "--[0-9]{2}" + timezone);
+		regexes.put("gYear", "[+-]*[0-9]{4}" + timezone);
+		regexes.put("gMonthDay", "--[0-9]{2}-[0-9]{2}" + timezone);
+		regexes.put("gYearMonth", "[0-9]{4}-[0-9]{2}" + timezone);
+		regexes.put("yyyy/MM", "[0-9]{4}/[0-9]{2}");
+		regexes.put("yyyy/MM/dd", "[0-9]{4}/[0-9]{2}/[0-9]{2}");
+		regexes.put("dd/MM/yyyy", "[0-9]{2}/[0-9]{2}/[0-9]{4}");
+		regexes.put("HH:mm", "[0-9]{2}:[0-9]{2}");
 	}
 	
 	public static FormatProperty getInstance() {

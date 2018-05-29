@@ -108,4 +108,11 @@ public class TypeBaseUtils {
 		}
 		return regexes;
 	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Element<?> clone(Element<?> element, ComplexType parent) {
+		return element.getType() instanceof ComplexType
+			? new ComplexElementImpl(element.getName(), (ComplexType) element.getType(), parent, element.getProperties())
+			: new SimpleElementImpl(element.getName(), (SimpleType) element.getType(), parent, element.getProperties());
+	}
 }

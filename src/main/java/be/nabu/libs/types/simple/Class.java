@@ -35,7 +35,8 @@ public class Class extends BaseMarshallableSimpleType<java.lang.Class> implement
 	@Override
 	public java.lang.Class unmarshal(java.lang.String content, Value<?>...values) {
 		try {
-			return content == null || content.trim().isEmpty() ? null : java.lang.Class.forName(content);
+			//return content == null || content.trim().isEmpty() ? null : java.lang.Class.forName(content);
+			return content == null || content.trim().isEmpty() ? null : Thread.currentThread().getContextClassLoader().loadClass(content);
 		}
 		catch (ClassNotFoundException e) {
 			throw new IllegalArgumentException(e);

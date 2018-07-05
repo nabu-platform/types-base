@@ -15,8 +15,4 @@ public enum CollectionFormat {
 	public char getCharacter() {
 		return character;
 	}
-	@Override
-	public String toString() {
-		return super.toString().toLowerCase();
-	}
 }

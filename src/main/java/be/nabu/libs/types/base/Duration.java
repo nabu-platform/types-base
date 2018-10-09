@@ -3,7 +3,7 @@ package be.nabu.libs.types.base;
 import java.text.ParseException;
 import java.time.Period;
 
-public class Duration {
+public class Duration implements Comparable<Duration> {
 	private boolean negative;
 	private int years, months, days, hours, minutes;
 	private double seconds;
@@ -160,5 +160,36 @@ public class Duration {
 	}
 	public java.time.Duration toJavaDuration() {
 		return hasTime() ? java.time.Duration.parse(marshal(false, true)) : null;
+	}
+	// not public because it is not accurate (due to months)
+	// but it can be used to compare durations
+	private long toSeconds() {
+		long result = 0;
+		if (seconds != 0) {
+			result += seconds;
+		}
+		if (minutes != 0) {
+			result += minutes * 60;
+		}
+		if (hours != 0) {
+			result += hours * 60 * 60;
+		}
+		if (days != 0) {
+			result += days * 24 * 60 * 60;
+		}
+		if (months != 0) {
+			result += months * 30 * 24 * 60 * 60;
+		}
+		if (years != 0) {
+			result += years * 365 * 24 * 60 * 60;
+		}
+		if (negative) {
+			result *= -1;
+		}
+		return result;
+	}
+	@Override
+	public int compareTo(Duration o) {
+		return (int) (toSeconds() - o.toSeconds());
 	}
 }

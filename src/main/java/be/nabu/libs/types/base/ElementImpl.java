@@ -42,7 +42,7 @@ abstract public class ElementImpl<T> extends BaseTypeInstance implements Modifia
 		super(type);
 		this.parent = parent;
 		setProperty(values);
-		setProperty(new ValueImpl<String>(new NameProperty(), name));
+		setProperty(new ValueImpl<String>(NameProperty.getInstance(), name));
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -87,7 +87,7 @@ abstract public class ElementImpl<T> extends BaseTypeInstance implements Modifia
 	@Override
 	public String getName() {
 		if (name == null) {
-			name = ValueUtils.getValue(new NameProperty(), getProperties());
+			name = ValueUtils.getValue(NameProperty.getInstance(), getProperties());
 			if (name == null) {
 				name = getType().getName(getProperties());
 			}
@@ -97,7 +97,7 @@ abstract public class ElementImpl<T> extends BaseTypeInstance implements Modifia
 	@Override
 	public String getNamespace() {
 		if (namespace == null) {
-			namespace = ValueUtils.getValue(new NamespaceProperty(), getProperties());
+			namespace = ValueUtils.getValue(NamespaceProperty.getInstance(), getProperties());
 			if (namespace == null && getParent() != null) {
 				namespace = getParent().getNamespace();
 			}

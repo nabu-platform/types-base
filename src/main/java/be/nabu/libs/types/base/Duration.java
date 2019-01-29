@@ -192,4 +192,12 @@ public class Duration implements Comparable<Duration> {
 	public int compareTo(Duration o) {
 		return (int) (toSeconds() - o.toSeconds());
 	}
+	@Override
+	public boolean equals(Object o) {
+		return o instanceof Duration && ((Duration) o).toString().equals(toString());
+	}
+	@Override
+	public int hashCode() {
+		return toString().hashCode();
+	}
 }

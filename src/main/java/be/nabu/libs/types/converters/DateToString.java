@@ -17,17 +17,19 @@ public class DateToString implements TypeConverterProvider {
 	public <T> T convert(Object instance, Value<?>[] sourceParameters, Value<?>... targetParameters) {
 		if (instance == null)
 			return null;
-		SimpleType<?> actualType = ValueUtils.getValue(new ActualTypeProperty(), targetParameters);
+		SimpleType<?> actualType = ValueUtils.getValue(ActualTypeProperty.getInstance(), targetParameters);
+		// if we have an actual type in the target parameters, we want to use those settings (if applicable) for the conversion
 		if (actualType != null) {
 			if (actualType.equals(getSourceType()))
-				return (T) ((Marshallable) actualType).marshal(instance, sourceParameters);
+				return (T) ((Marshallable) actualType).marshal(instance, targetParameters);
 			else {
-				instance = TypeConverterFactory.getInstance().getConverter().convert(instance, new BaseTypeInstance(getSourceType(), targetParameters), new BaseTypeInstance(actualType, sourceParameters));
-				return (T) ((Marshallable) actualType).marshal(instance, sourceParameters);
+				instance = TypeConverterFactory.getInstance().getConverter().convert(instance, new BaseTypeInstance(getSourceType(), sourceParameters), new BaseTypeInstance(actualType, targetParameters));
+				return (T) ((Marshallable) actualType).marshal(instance, targetParameters);
 			}
 		}
+		// otherwise, the properties in the source date instance are used
 		else
-			return (T) ((Marshallable) getSourceType()).marshal(instance, targetParameters);
+			return (T) ((Marshallable) getSourceType()).marshal(instance, sourceParameters);
 	}
 
 	@Override

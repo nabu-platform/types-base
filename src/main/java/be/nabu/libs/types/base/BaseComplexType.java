@@ -5,8 +5,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import be.nabu.libs.property.ValueUtils;
+import be.nabu.libs.property.api.Property;
 import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.api.Element;
 import be.nabu.libs.types.api.Group;
@@ -15,6 +17,7 @@ import be.nabu.libs.types.properties.AttributeQualifiedDefaultProperty;
 import be.nabu.libs.types.properties.ElementQualifiedDefaultProperty;
 import be.nabu.libs.types.properties.NameProperty;
 import be.nabu.libs.types.properties.NamespaceProperty;
+import be.nabu.libs.types.properties.RestrictProperty;
 import be.nabu.libs.validator.api.ValidationMessage;
 import be.nabu.libs.validator.api.ValidationMessage.Severity;
 
@@ -99,4 +102,12 @@ public abstract class BaseComplexType<T> extends BaseType<T> implements Modifiab
 	public void setNamespace(String value) {
 		setProperty(new ValueImpl<String>(NamespaceProperty.getInstance(), value));
 	}
+
+	@Override
+	public Set<Property<?>> getSupportedProperties(Value<?>... properties) {
+		Set<Property<?>> supportedProperties = super.getSupportedProperties(properties);
+		supportedProperties.add(RestrictProperty.getInstance());
+		return supportedProperties;
+	}
+	
 }

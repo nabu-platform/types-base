@@ -1,9 +1,13 @@
 package be.nabu.libs.types.simple;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
+import be.nabu.libs.property.api.Property;
 import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.base.BaseComparableSimpleType;
+import be.nabu.libs.types.properties.FractionDigits;
+import be.nabu.libs.types.properties.TotalDigits;
 
 /**
  * This should only be used for very big numbers
@@ -36,5 +40,13 @@ public class Decimal extends BaseComparableSimpleType<BigDecimal> {
 	@Override
 	public java.lang.String getNamespace(Value<?>...values) {
 		return XML_SCHEMA;
+	}
+	
+	@Override
+	public Set<Property<?>> getSupportedProperties(Value<?>...properties) {
+		Set<Property<?>> set = super.getSupportedProperties(properties);
+		set.add(FractionDigits.getInstance());
+		set.add(TotalDigits.getInstance());
+		return set;
 	}
 }

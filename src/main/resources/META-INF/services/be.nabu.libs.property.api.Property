@@ -30,3 +30,5 @@ be.nabu.libs.types.properties.TokenProperty
 be.nabu.libs.types.properties.CollectionFormatProperty
 be.nabu.libs.types.properties.GeneratedProperty
 be.nabu.libs.types.properties.RestrictProperty
+be.nabu.libs.types.properties.FractionDigits
+be.nabu.libs.types.properties.TotalDigits

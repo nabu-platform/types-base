@@ -1,7 +1,12 @@
 package be.nabu.libs.types.simple;
 
+import java.util.Set;
+
+import be.nabu.libs.property.api.Property;
 import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.base.BaseComparableSimpleType;
+import be.nabu.libs.types.properties.FractionDigits;
+import be.nabu.libs.types.properties.TotalDigits;
 
 /**
  * +/-0 are not the same for doubles & floats in xsd?
@@ -50,5 +55,13 @@ public class Double extends BaseComparableSimpleType<java.lang.Double> {
 	@Override
 	public java.lang.String getNamespace(Value<?>...values) {
 		return XML_SCHEMA;
+	}
+	
+	@Override
+	public Set<Property<?>> getSupportedProperties(Value<?>...properties) {
+		Set<Property<?>> set = super.getSupportedProperties(properties);
+		set.add(FractionDigits.getInstance());
+		set.add(TotalDigits.getInstance());
+		return set;
 	}
 }

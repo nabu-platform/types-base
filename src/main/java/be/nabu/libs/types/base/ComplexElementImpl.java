@@ -27,8 +27,8 @@ public class ComplexElementImpl extends ElementImpl<ComplexContent> {
 	@Override
 	public Set<Property<?>> getSupportedProperties() {
 		Set<Property<?>> properties = super.getSupportedProperties();
-		properties.add(new ElementQualifiedDefaultProperty());
-		properties.add(new AttributeQualifiedDefaultProperty());
+		properties.add(ElementQualifiedDefaultProperty.getInstance());
+		properties.add(AttributeQualifiedDefaultProperty.getInstance());
 		properties.removeAll(getBlockedProperties());
 		return properties;
 	}

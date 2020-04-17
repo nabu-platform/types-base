@@ -10,6 +10,7 @@ import java.util.UUID;
 import be.nabu.libs.converter.ConverterFactory;
 import be.nabu.libs.converter.api.Converter;
 import be.nabu.libs.property.api.Value;
+import be.nabu.libs.types.BaseTypeInstance;
 import be.nabu.libs.types.CollectionHandlerFactory;
 import be.nabu.libs.types.ComplexContentWrapperFactory;
 import be.nabu.libs.types.TypeUtils;
@@ -111,8 +112,23 @@ public class TypeBaseUtils {
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Element<?> clone(Element<?> element, ComplexType parent) {
-		return element.getType() instanceof ComplexType
-			? new ComplexElementImpl(element.getName(), (ComplexType) element.getType(), parent, element.getProperties())
-			: new SimpleElementImpl(element.getName(), (SimpleType) element.getType(), parent, element.getProperties());
+		// make sure we take into account the maintain default values (necessary for wsdl shizzle)
+		// once again: default values for properties were a bad idea...
+		if (element.getType() instanceof ComplexType) {
+			ComplexElementImpl cloned = new ComplexElementImpl(element.getName(), (ComplexType) element.getType(), parent);
+			if (element instanceof BaseTypeInstance) {
+				cloned.setMaintainDefaultValues(((BaseTypeInstance) element).isMaintainDefaultValues());
+			}
+			cloned.setProperty(element.getProperties());
+			return cloned;
+		}
+		else {
+			SimpleElementImpl cloned = new SimpleElementImpl(element.getName(), (SimpleType) element.getType(), parent);
+			if (element instanceof BaseTypeInstance) {
+				cloned.setMaintainDefaultValues(((BaseTypeInstance) element).isMaintainDefaultValues());
+			}
+			cloned.setProperty(element.getProperties());
+			return cloned;
+		}
 	}
 }

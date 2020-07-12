@@ -1,12 +1,12 @@
 package be.nabu.libs.types.converters;
 
-import be.nabu.libs.converter.api.Converter;
+import be.nabu.libs.converter.api.PrioritizedConverter;
 import be.nabu.libs.types.SimpleTypeWrapperFactory;
 import be.nabu.libs.types.api.DefinedSimpleType;
 import be.nabu.libs.types.api.SimpleTypeWrapper;
 import be.nabu.libs.types.api.Unmarshallable;
 
-public class UnmarshallableSimpleTypeFromString implements Converter {
+public class UnmarshallableSimpleTypeFromString implements PrioritizedConverter {
 
 	private SimpleTypeWrapper wrapper = SimpleTypeWrapperFactory.getInstance().getWrapper();
 	
@@ -34,4 +34,8 @@ public class UnmarshallableSimpleTypeFromString implements Converter {
 		return null;
 	}
 
+	@Override
+	public int getPriority() {
+		return -1;
+	}
 }

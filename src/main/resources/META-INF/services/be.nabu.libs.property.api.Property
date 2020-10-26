@@ -32,3 +32,6 @@ be.nabu.libs.types.properties.GeneratedProperty
 be.nabu.libs.types.properties.RestrictProperty
 be.nabu.libs.types.properties.FractionDigits
 be.nabu.libs.types.properties.TotalDigits
+be.nabu.libs.types.properties.IdentifiableProperty
+be.nabu.libs.types.properties.ScopeProperty
+be.nabu.libs.types.properties.ForeignNameProperty

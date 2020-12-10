@@ -36,3 +36,5 @@ be.nabu.libs.types.properties.IdentifiableProperty
 be.nabu.libs.types.properties.ScopeProperty
 be.nabu.libs.types.properties.ForeignNameProperty
 be.nabu.libs.types.properties.LabelProperty
+be.nabu.libs.types.properties.CalculationProperty
+be.nabu.libs.types.properties.DynamicNameProperty

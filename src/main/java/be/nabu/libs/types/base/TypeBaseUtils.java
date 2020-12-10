@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import be.nabu.libs.converter.ConverterFactory;
 import be.nabu.libs.converter.api.Converter;
+import be.nabu.libs.property.ValueUtils;
 import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.BaseTypeInstance;
 import be.nabu.libs.types.CollectionHandlerFactory;
@@ -20,11 +21,18 @@ import be.nabu.libs.types.api.ComplexType;
 import be.nabu.libs.types.api.Element;
 import be.nabu.libs.types.api.KeyValuePair;
 import be.nabu.libs.types.api.SimpleType;
+import be.nabu.libs.types.api.Type;
 import be.nabu.libs.types.properties.FormatProperty;
+import be.nabu.libs.types.properties.LabelProperty;
 import be.nabu.libs.types.properties.PatternProperty;
 import be.nabu.libs.types.utils.KeyValuePairImpl;
 
 public class TypeBaseUtils {
+	
+	public static String getPrettyName(Type type) {
+		String label = ValueUtils.getValue(LabelProperty.getInstance(), type.getProperties());
+		return label != null ? label : type.getName();
+	}
 	
 	public static Map<String, String> toStringMap(ComplexContent content) {
 		if (content == null) {

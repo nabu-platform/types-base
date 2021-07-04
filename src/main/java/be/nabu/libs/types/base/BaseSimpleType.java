@@ -11,6 +11,7 @@ import be.nabu.libs.types.properties.ForeignKeyProperty;
 import be.nabu.libs.types.properties.ForeignNameProperty;
 import be.nabu.libs.types.properties.GeneratedProperty;
 import be.nabu.libs.types.properties.PrimaryKeyProperty;
+import be.nabu.libs.types.properties.UUIDFormatProperty;
 
 /**
  * Simple types are the same as long as they are of the same class (functional singletons)
@@ -52,6 +53,7 @@ abstract public class BaseSimpleType<T> extends BaseType<T> implements DefinedSi
 		set.add(GeneratedProperty.getInstance());
 		set.add(AggregateProperty.getInstance());
 		set.add(CalculationProperty.getInstance());
+		set.add(UUIDFormatProperty.getInstance());
 		return set;
 	}
 }

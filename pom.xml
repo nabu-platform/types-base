@@ -40,5 +40,11 @@
 			<groupId>be.nabu.utils</groupId>
 			<artifactId>utils-codec</artifactId>
 		</dependency>
+		
+		<!-- needed for operator overloading -->
+		<dependency>
+			<groupId>be.nabu.libs.evaluator</groupId>
+			<artifactId>evaluator-api</artifactId>
+		</dependency>
 	</dependencies>
 </project>

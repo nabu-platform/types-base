@@ -1,10 +1,13 @@
 package be.nabu.libs.types.simple;
 
+import be.nabu.libs.property.ValueUtils;
 import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.api.Unmarshallable;
 import be.nabu.libs.types.base.BaseMarshallableSimpleType;
+import be.nabu.libs.types.base.UUIDFormat;
 import be.nabu.libs.types.base.ValueImpl;
 import be.nabu.libs.types.properties.PatternProperty;
+import be.nabu.libs.types.properties.UUIDFormatProperty;
 
 public class UUID extends BaseMarshallableSimpleType<java.util.UUID> implements Unmarshallable<java.util.UUID> {
 
@@ -26,7 +29,13 @@ public class UUID extends BaseMarshallableSimpleType<java.util.UUID> implements 
 
 	@Override
 	public java.lang.String marshal(java.util.UUID object, Value<?>... values) {
-		return object == null ? null : object.toString().replace("-", "");
+		UUIDFormat value = ValueUtils.getValue(UUIDFormatProperty.getInstance(), values);
+		if (value != null && value.equals(UUIDFormat.DASHES)) {
+			return object == null ? null : object.toString();
+		}
+		else {
+			return object == null ? null : object.toString().replace("-", "");
+		}
 	}
 
 	@Override

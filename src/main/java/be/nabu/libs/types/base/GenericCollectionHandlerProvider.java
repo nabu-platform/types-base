@@ -79,6 +79,7 @@ public class GenericCollectionHandlerProvider extends IntegerCollectionProviderB
 		Iterator iterator = collection.iterator();
 		while (iterator.hasNext() && i < index) {
 			iterator.next();
+			i++;
 		}
 		return i == index ? iterator.next() : null;
 	}

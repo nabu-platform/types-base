@@ -3,3 +3,4 @@ be.nabu.libs.types.base.ListCollectionHandlerProvider
 be.nabu.libs.types.base.StringMapCollectionHandlerProvider
 be.nabu.libs.types.base.GenericCollectionHandlerProvider
 be.nabu.libs.types.resultset.ResultSetWithTypeCollectionHandler
+be.nabu.libs.types.base.JDBCArrayCollectionHandlerProvider

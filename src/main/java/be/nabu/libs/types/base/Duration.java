@@ -161,9 +161,11 @@ public class Duration implements Comparable<Duration> {
 	public java.time.Duration toJavaDuration() {
 		return hasTime() ? java.time.Duration.parse(marshal(false, true)) : null;
 	}
-	// not public because it is not accurate (due to months)
+	
+	// it is not accurate due to months being variable length
 	// but it can be used to compare durations
-	private long toSeconds() {
+	// and it can be used to approximate the amount of seconds
+	public long toSeconds() {
 		long result = 0;
 		if (seconds != 0) {
 			result += seconds;

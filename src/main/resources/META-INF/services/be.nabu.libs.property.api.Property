@@ -41,3 +41,4 @@ be.nabu.libs.types.properties.CalculationProperty
 be.nabu.libs.types.properties.DynamicNameProperty
 be.nabu.libs.types.properties.UUIDFormatProperty
 be.nabu.libs.types.properties.EnvironmentSpecificProperty
+be.nabu.libs.types.properties.IdProperty

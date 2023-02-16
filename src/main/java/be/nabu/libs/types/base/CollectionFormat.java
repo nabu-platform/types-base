@@ -5,7 +5,12 @@ public enum CollectionFormat {
 	SSV(' '),
 	TSV('\t'),
 	PIPES('|'),
-	MULTI('&')
+	MULTI('&'),
+	
+	LABEL('.'),
+	// special handling required...
+	MATRIX_IMPLODE(','),
+	MATRIX_EXPLODE(',')
 	;
 	private char character;
 

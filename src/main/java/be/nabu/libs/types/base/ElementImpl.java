@@ -2,17 +2,21 @@ package be.nabu.libs.types.base;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import be.nabu.libs.property.ValueUtils;
 import be.nabu.libs.property.api.Property;
+import be.nabu.libs.property.api.PropertyChangeListener;
 import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.BaseTypeInstance;
 import be.nabu.libs.types.CollectionHandlerFactory;
 import be.nabu.libs.types.api.CollectionHandlerProvider;
 import be.nabu.libs.types.api.ComplexType;
+import be.nabu.libs.types.api.ElementWithPropertyListener;
 import be.nabu.libs.types.api.ModifiableElement;
 import be.nabu.libs.types.api.Type;
 import be.nabu.libs.types.properties.NameProperty;
@@ -21,11 +25,13 @@ import be.nabu.libs.types.properties.QualifiedProperty;
 import be.nabu.libs.validator.api.Validation;
 import be.nabu.libs.validator.api.Validator;
 
-abstract public class ElementImpl<T> extends BaseTypeInstance implements ModifiableElement<T> {
+abstract public class ElementImpl<T> extends BaseTypeInstance implements ModifiableElement<T>, ElementWithPropertyListener<T> {
 
 	private Set<Property<?>> blockedProperties = new HashSet<Property<?>>();
 	
 	private ComplexType parent;
+	
+	private Map<String, List<PropertyChangeListener<?>>> listeners = new HashMap<String, List<PropertyChangeListener<?>>>();
 	
 	/**
 	 * Cached values for quick access
@@ -105,8 +111,20 @@ abstract public class ElementImpl<T> extends BaseTypeInstance implements Modifia
 		return namespace;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void setProperty(Value<?>... values) {
+		// check for listeners and inform them of the changes
+		if (values != null && values.length > 0) {
+			for (Value<?> value : values) {
+				List<PropertyChangeListener<?>> list = listeners.get(value.getProperty().getName());
+				if (list != null && !list.isEmpty()) {
+					for (PropertyChangeListener listener : list) {
+						listener.changed(value.getProperty(), getProperty(value.getProperty()), value);
+					}
+				}
+			}
+		}
 		// reset cache
 		name = null;
 		namespace = null;
@@ -117,4 +135,24 @@ abstract public class ElementImpl<T> extends BaseTypeInstance implements Modifia
 	public void setParent(ComplexType parent) {
 		this.parent = parent;
 	}
+
+	@Override
+	public <P> void registerPropertyListener(Property<P> property, PropertyChangeListener<P> listener) {
+		if (!listeners.containsKey(property.getName())) {
+			listeners.put(property.getName(), new ArrayList<PropertyChangeListener<?>>());
+		}
+		List<PropertyChangeListener<?>> list = listeners.get(property.getName());
+		list.add(listener);
+	}
+
+	@Override
+	public <P> void unregisterPropertyListener(Property<P> property, PropertyChangeListener<P> listener) {
+		if (listeners.containsKey(property.getName())) {
+			List<PropertyChangeListener<?>> list = listeners.get(property.getName());
+			if (list != null) {
+				list.remove(listener);
+			}
+		}
+	}
+	
 }

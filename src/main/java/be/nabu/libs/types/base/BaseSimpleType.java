@@ -13,6 +13,7 @@ import be.nabu.libs.types.properties.ForeignNameProperty;
 import be.nabu.libs.types.properties.GeneratedProperty;
 import be.nabu.libs.types.properties.IndexedProperty;
 import be.nabu.libs.types.properties.PrimaryKeyProperty;
+import be.nabu.libs.types.properties.TranslatableProperty;
 import be.nabu.libs.types.properties.UUIDFormatProperty;
 
 /**
@@ -58,6 +59,7 @@ abstract public class BaseSimpleType<T> extends BaseType<T> implements DefinedSi
 		set.add(CalculationProperty.getInstance());
 		set.add(UUIDFormatProperty.getInstance());
 		set.add(EnvironmentSpecificProperty.getInstance());
+		set.add(TranslatableProperty.getInstance());
 		return set;
 	}
 }

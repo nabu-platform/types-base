@@ -18,3 +18,4 @@ be.nabu.libs.types.simple.Timezone
 be.nabu.libs.types.simple.Charset
 be.nabu.libs.types.simple.Duration
 be.nabu.libs.types.simple.Key
+be.nabu.libs.types.simple.Certificate

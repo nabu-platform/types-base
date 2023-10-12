@@ -44,3 +44,4 @@ be.nabu.libs.types.properties.EnvironmentSpecificProperty
 be.nabu.libs.types.properties.IdProperty
 be.nabu.libs.types.properties.CommentProperty
 be.nabu.libs.types.properties.TranslatableProperty
+be.nabu.libs.types.properties.CollectionCrudProviderProperty

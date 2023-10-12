@@ -26,7 +26,6 @@ import be.nabu.libs.types.properties.NameProperty;
 import be.nabu.libs.types.properties.NamespaceProperty;
 import be.nabu.libs.types.properties.NillableProperty;
 import be.nabu.libs.types.properties.ScopeProperty;
-import be.nabu.libs.types.properties.UUIDFormatProperty;
 import be.nabu.libs.types.properties.UniqueProperty;
 import be.nabu.libs.validator.NillableValidator;
 import be.nabu.libs.validator.OccurenceValidator;

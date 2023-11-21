@@ -20,6 +20,7 @@ import be.nabu.libs.types.properties.CommentProperty;
 import be.nabu.libs.types.properties.DynamicNameProperty;
 import be.nabu.libs.types.properties.IdentifiableProperty;
 import be.nabu.libs.types.properties.LabelProperty;
+import be.nabu.libs.types.properties.MatrixProperty;
 import be.nabu.libs.types.properties.MaxOccursProperty;
 import be.nabu.libs.types.properties.MinOccursProperty;
 import be.nabu.libs.types.properties.NameProperty;
@@ -77,6 +78,7 @@ abstract public class BaseType<T> implements ModifiableType {
 		set.add(IdentifiableProperty.getInstance());
 		set.add(LabelProperty.getInstance());
 		set.add(DynamicNameProperty.getInstance());
+		set.add(MatrixProperty.getInstance());
 		// add any properties already set
 		set.addAll(this.properties.keySet());
 		return set;

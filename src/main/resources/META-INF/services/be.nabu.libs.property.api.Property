@@ -46,3 +46,5 @@ be.nabu.libs.types.properties.CommentProperty
 be.nabu.libs.types.properties.TranslatableProperty
 be.nabu.libs.types.properties.CollectionCrudProviderProperty
 be.nabu.libs.types.properties.MatrixProperty
+be.nabu.libs.types.properties.EnricherProperty
+be.nabu.libs.types.properties.PersisterProperty

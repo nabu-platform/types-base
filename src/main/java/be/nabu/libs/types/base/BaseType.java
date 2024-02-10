@@ -18,6 +18,7 @@ import be.nabu.libs.types.properties.CollectionHandlerProviderProperty;
 import be.nabu.libs.types.properties.CollectionNameProperty;
 import be.nabu.libs.types.properties.CommentProperty;
 import be.nabu.libs.types.properties.DynamicNameProperty;
+import be.nabu.libs.types.properties.EnricherProperty;
 import be.nabu.libs.types.properties.IdentifiableProperty;
 import be.nabu.libs.types.properties.LabelProperty;
 import be.nabu.libs.types.properties.MatrixProperty;
@@ -26,6 +27,7 @@ import be.nabu.libs.types.properties.MinOccursProperty;
 import be.nabu.libs.types.properties.NameProperty;
 import be.nabu.libs.types.properties.NamespaceProperty;
 import be.nabu.libs.types.properties.NillableProperty;
+import be.nabu.libs.types.properties.PersisterProperty;
 import be.nabu.libs.types.properties.ScopeProperty;
 import be.nabu.libs.types.properties.UniqueProperty;
 import be.nabu.libs.validator.NillableValidator;
@@ -79,6 +81,8 @@ abstract public class BaseType<T> implements ModifiableType {
 		set.add(LabelProperty.getInstance());
 		set.add(DynamicNameProperty.getInstance());
 		set.add(MatrixProperty.getInstance());
+		set.add(EnricherProperty.getInstance());
+		set.add(PersisterProperty.getInstance());
 		// add any properties already set
 		set.addAll(this.properties.keySet());
 		return set;

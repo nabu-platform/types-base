@@ -162,6 +162,32 @@ public class Duration implements Comparable<Duration> {
 		return hasTime() ? java.time.Duration.parse(marshal(false, true)) : null;
 	}
 	
+	public long toMilliSeconds() {
+		long result = 0;
+		if (seconds != 0) {
+			result += 1000l * seconds;
+		}
+		if (minutes != 0) {
+			result += 1000l * minutes * 60;
+		}
+		if (hours != 0) {
+			result += 1000l * hours * 60 * 60;
+		}
+		if (days != 0) {
+			result += 1000l * days * 24 * 60 * 60;
+		}
+		if (months != 0) {
+			result += 1000l * months * 30 * 24 * 60 * 60;
+		}
+		if (years != 0) {
+			result += 1000l * years * 365 * 24 * 60 * 60;
+		}
+		if (negative) {
+			result *= -1;
+		}
+		return result;
+	}
+	
 	// it is not accurate due to months being variable length
 	// but it can be used to compare durations
 	// and it can be used to approximate the amount of seconds

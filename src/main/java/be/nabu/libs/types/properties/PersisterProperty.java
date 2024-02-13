@@ -14,7 +14,7 @@ public class PersisterProperty extends SimpleProperty<String> {
 	
 	@Override
 	public String getName() {
-		return "enricher";
+		return "persister";
 	}
 
 }

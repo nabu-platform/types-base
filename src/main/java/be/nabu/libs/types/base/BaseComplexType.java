@@ -13,6 +13,7 @@ import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.api.Element;
 import be.nabu.libs.types.api.Group;
 import be.nabu.libs.types.api.ModifiableComplexType;
+import be.nabu.libs.types.properties.AllowProperty;
 import be.nabu.libs.types.properties.AttributeQualifiedDefaultProperty;
 import be.nabu.libs.types.properties.CollectionCrudProviderProperty;
 import be.nabu.libs.types.properties.DuplicateProperty;
@@ -108,6 +109,7 @@ public abstract class BaseComplexType<T> extends BaseType<T> implements Modifiab
 	@Override
 	public Set<Property<?>> getSupportedProperties(Value<?>... properties) {
 		Set<Property<?>> supportedProperties = super.getSupportedProperties(properties);
+		supportedProperties.add(AllowProperty.getInstance());
 		supportedProperties.add(RestrictProperty.getInstance());
 		supportedProperties.add(DuplicateProperty.getInstance());
 		supportedProperties.add(CollectionCrudProviderProperty.getInstance());

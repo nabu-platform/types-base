@@ -1,10 +1,20 @@
 package be.nabu.libs.types.base;
 
+import java.io.ByteArrayInputStream;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import be.nabu.libs.converter.ConverterFactory;
@@ -22,9 +32,13 @@ import be.nabu.libs.types.api.Element;
 import be.nabu.libs.types.api.KeyValuePair;
 import be.nabu.libs.types.api.SimpleType;
 import be.nabu.libs.types.api.Type;
+import be.nabu.libs.types.properties.AllowProperty;
+import be.nabu.libs.types.properties.EnumerationProperty;
 import be.nabu.libs.types.properties.FormatProperty;
 import be.nabu.libs.types.properties.LabelProperty;
+import be.nabu.libs.types.properties.NameProperty;
 import be.nabu.libs.types.properties.PatternProperty;
+import be.nabu.libs.types.properties.RestrictProperty;
 import be.nabu.libs.types.utils.KeyValuePairImpl;
 
 public class TypeBaseUtils {
@@ -138,5 +152,112 @@ public class TypeBaseUtils {
 			cloned.setProperty(element.getProperties());
 			return cloned;
 		}
+	}
+	
+	
+	public static class StubProfile {
+		private int maxAmountOfIterations = 20;
+
+		public int getMaxAmountOfIterations() {
+			return maxAmountOfIterations;
+		}
+
+		public void setMaxAmountOfIterations(int maxAmountOfIterations) {
+			this.maxAmountOfIterations = maxAmountOfIterations;
+		}
+	}
+	
+	public static Object stub(Type type, StubProfile profile, Value<?>...values) {
+		return generateValue(type, profile, values);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private static Object generateValue(Type type, StubProfile profile, Value<?>...values) {
+		if (type.isList(values)) {
+			List list = new ArrayList();
+			for (int i = 0; i < new Random().nextInt(profile.getMaxAmountOfIterations()); i++) {
+				// send without properties, ideally we should only strip maxOccurs....
+				list.add(generateValue(type, profile));
+			}
+			return list;
+		}
+		else if (type instanceof ComplexType) {
+			ComplexContent child = ((ComplexType) type).newInstance();
+			for (Element<?> single : TypeUtils.getAllChildren((ComplexType) type)) {
+				child.set(single.getName(), generateValue(single.getType(), profile, single.getProperties()));
+			}
+			return child;
+		}
+		else if (type instanceof SimpleType) {
+			List enumerationValues = (List) ValueUtils.getValue(new EnumerationProperty(), values);
+			// if it is enumerated, take a random enumeration value
+			if (enumerationValues != null) {
+				return enumerationValues.get(new Random().nextInt(enumerationValues.size()));
+			}
+			else {
+				String name = ValueUtils.getValue(NameProperty.getInstance(), values);
+				Class<?> instanceClass = ((SimpleType<?>) type).getInstanceClass();
+				if (Number.class.isAssignableFrom(instanceClass) || BigInteger.class.isAssignableFrom(instanceClass) || BigDecimal.class.isAssignableFrom(instanceClass)) {
+					return new Random().nextDouble();
+				}
+				else if (java.util.Date.class.isAssignableFrom(instanceClass)) {
+					return new Date();
+				}
+				else if (java.lang.String.class.isAssignableFrom(instanceClass)) {
+					return name + "-" + new Random().nextInt();
+				}
+				else if (java.lang.Boolean.class.isAssignableFrom(instanceClass)) {
+					return new Random().nextDouble() >= 0.5;
+				}
+				else if (byte[].class.isAssignableFrom(instanceClass)) {
+					return (name + "-" + new Random().nextInt()).getBytes(Charset.forName("UTF-8"));
+				}
+				else if (java.io.InputStream.class.isAssignableFrom(instanceClass)) {
+					return new ByteArrayInputStream((name + "-" + new Random().nextInt()).getBytes(Charset.forName("UTF-8")));
+				}
+				else if (UUID.class.isAssignableFrom(instanceClass)) {
+					return UUID.randomUUID();
+				}
+				else if (URI.class.isAssignableFrom(instanceClass)) {
+					try {
+						return new URI("http://example.com/" + name + "-" + new Random().nextInt());
+					}
+					catch (URISyntaxException e) {
+						throw new RuntimeException(e);
+					}
+				}
+				else if (TimeZone.class.isAssignableFrom(instanceClass)) {
+					return TimeZone.getDefault();
+				}
+				else if (Charset.class.isAssignableFrom(instanceClass)) {
+					return Charset.defaultCharset();
+				}
+			}
+		}
+		return null;
+	}
+	
+	public static List<String> getRestricted(ComplexType type, Value<?>...properties) {
+		if (properties == null || properties.length == 0) {
+			properties = type.getProperties();
+		}
+		List<String> restricted = new ArrayList<String>();
+		String restrictedValue = ValueUtils.getValue(RestrictProperty.getInstance(), properties);
+		if (restrictedValue != null && !restrictedValue.trim().isEmpty()) {
+			restricted.addAll(Arrays.asList(restrictedValue.split("[\\s]*,[\\s]*")));
+		}
+		String allowedValue = ValueUtils.getValue(AllowProperty.getInstance(), properties);
+		if (allowedValue != null && !allowedValue.trim().isEmpty()) {
+			// by setting an allow, you implicitly restrict everything that is not explicitly allowed
+			List<String> allowed = Arrays.asList(allowedValue.split("[\\s]*,[\\s]*"));
+			if (type.getSuperType() instanceof ComplexType) {
+				for (Element<?> child : TypeUtils.getAllChildren((ComplexType) type.getSuperType())) {
+					if (allowed.indexOf(child.getName()) < 0) {
+						restricted.add(child.getName());
+					}
+				}
+			}
+		}
+		return restricted;
 	}
 }

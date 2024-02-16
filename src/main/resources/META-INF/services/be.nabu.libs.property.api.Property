@@ -48,3 +48,4 @@ be.nabu.libs.types.properties.CollectionCrudProviderProperty
 be.nabu.libs.types.properties.MatrixProperty
 be.nabu.libs.types.properties.EnricherProperty
 be.nabu.libs.types.properties.PersisterProperty
+be.nabu.libs.types.properties.AllowProperty

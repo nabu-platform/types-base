@@ -33,6 +33,7 @@ import be.nabu.libs.types.api.KeyValuePair;
 import be.nabu.libs.types.api.SimpleType;
 import be.nabu.libs.types.api.Type;
 import be.nabu.libs.types.properties.AllowProperty;
+import be.nabu.libs.types.properties.EnricherProperty;
 import be.nabu.libs.types.properties.EnumerationProperty;
 import be.nabu.libs.types.properties.FormatProperty;
 import be.nabu.libs.types.properties.LabelProperty;
@@ -259,5 +260,21 @@ public class TypeBaseUtils {
 			}
 		}
 		return restricted;
+	}
+	
+	public static boolean isEnriched(Element<?> child) {
+		String enricher = ValueUtils.getValue(EnricherProperty.getInstance(), child.getProperties());
+		if (enricher != null && !enricher.isEmpty()) {
+			return true;
+		}
+		Type type = child.getType();
+		while (type != null) {
+			enricher = ValueUtils.getValue(EnricherProperty.getInstance(), type.getProperties());
+			if (enricher != null && !enricher.isEmpty()) {
+				return true;
+			}
+			type = type.getSuperType();
+		}
+		return false;
 	}
 }

@@ -22,6 +22,7 @@ import be.nabu.libs.types.api.ModifiableComplexType;
 import be.nabu.libs.types.api.ModifiableComplexTypeGenerator;
 import be.nabu.libs.types.api.SimpleType;
 import be.nabu.libs.types.base.SimpleElementImpl;
+import be.nabu.libs.types.base.TypeBaseUtils;
 import be.nabu.libs.types.base.ValueImpl;
 import be.nabu.libs.types.properties.FormatProperty;
 import be.nabu.libs.types.properties.MinOccursProperty;
@@ -161,6 +162,9 @@ public class ResultSetCollectionHandler implements CollectionHandlerProvider<Res
 		int column = 1;
 		Element<?> keyValueChild = null;
 		for (Element<?> child : TypeUtils.getAllChildren(resultType)) {
+			if (TypeBaseUtils.isEnriched(child)) {
+				continue;
+			}
 			if (child.getType() instanceof SimpleType) {
 				try {
 					SimpleType<?> simpleType = (SimpleType<?>) child.getType();

@@ -30,6 +30,7 @@ import be.nabu.libs.types.api.ComplexContent;
 import be.nabu.libs.types.api.ComplexType;
 import be.nabu.libs.types.api.Element;
 import be.nabu.libs.types.api.KeyValuePair;
+import be.nabu.libs.types.api.ModifiableComplexType;
 import be.nabu.libs.types.api.SimpleType;
 import be.nabu.libs.types.api.Type;
 import be.nabu.libs.types.properties.AllowProperty;
@@ -131,6 +132,20 @@ public class TypeBaseUtils {
 			}
 		}
 		return regexes;
+	}
+	
+	public static void merge(ModifiableComplexType into, ComplexType outof) {
+		for (Element<?> child : TypeUtils.getAllChildren(outof)) {
+			// if we have nothing, just clone it
+			Element<?> existing = into.get(child.getName());
+			if (existing == null) {
+				into.add(clone(child, into));
+			}
+			// recursive merge
+			else if (existing.getType() instanceof ModifiableComplexType && child.getType() instanceof ComplexType) {
+				merge((ModifiableComplexType) existing.getType(), (ComplexType) child.getType());
+			}
+		}
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

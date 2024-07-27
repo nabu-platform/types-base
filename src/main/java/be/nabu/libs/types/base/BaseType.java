@@ -29,6 +29,7 @@ import be.nabu.libs.types.properties.NamespaceProperty;
 import be.nabu.libs.types.properties.NillableProperty;
 import be.nabu.libs.types.properties.PersisterProperty;
 import be.nabu.libs.types.properties.ScopeProperty;
+import be.nabu.libs.types.properties.SecretProperty;
 import be.nabu.libs.types.properties.UniqueProperty;
 import be.nabu.libs.validator.NillableValidator;
 import be.nabu.libs.validator.OccurenceValidator;
@@ -78,6 +79,7 @@ abstract public class BaseType<T> implements ModifiableType {
 		set.add(UniqueProperty.getInstance());
 		set.add(ScopeProperty.getInstance());
 		set.add(IdentifiableProperty.getInstance());
+		set.add(SecretProperty.getInstance());
 		set.add(LabelProperty.getInstance());
 		set.add(DynamicNameProperty.getInstance());
 		set.add(MatrixProperty.getInstance());

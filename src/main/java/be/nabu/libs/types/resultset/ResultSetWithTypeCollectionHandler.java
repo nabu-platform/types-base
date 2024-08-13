@@ -66,7 +66,7 @@ public class ResultSetWithTypeCollectionHandler implements TypedCollectionHandle
 	}
 	
 	@Override
-	public Integer unmarshalIndex(String index) {
+	public Integer unmarshalIndex(String index, ResultSetWithType collection) {
 		return index == null ? null : Integer.parseInt(index);
 	}
 	

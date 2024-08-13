@@ -36,7 +36,7 @@ public class ListCollectionHandlerProvider extends IntegerCollectionProviderBase
 
 	@Override
 	public Object get(List collection, Integer index) {
-		return index >= collection.size() ? null : collection.get(index);
+		return index == null || index >= collection.size() ? null : collection.get(index);
 	}
 
 	@Override

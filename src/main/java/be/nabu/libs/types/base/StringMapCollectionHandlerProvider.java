@@ -72,7 +72,7 @@ public class StringMapCollectionHandlerProvider<V> implements CollectionHandlerP
 	}
 
 	@Override
-	public String unmarshalIndex(String index) {
+	public String unmarshalIndex(String index, Map collection) {
 		return index;
 	}
 

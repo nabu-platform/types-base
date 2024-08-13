@@ -148,7 +148,7 @@ public class ResultSetCollectionHandler implements CollectionHandlerProvider<Res
 	}
 
 	@Override
-	public Integer unmarshalIndex(String index) {
+	public Integer unmarshalIndex(String index, ResultSet collection) {
 		return index == null ? null : Integer.parseInt(index);
 	}
 

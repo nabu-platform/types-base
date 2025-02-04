@@ -25,6 +25,7 @@ import be.nabu.libs.types.api.DefinedSimpleType;
 import be.nabu.libs.types.properties.AggregateProperty;
 import be.nabu.libs.types.properties.CalculationProperty;
 import be.nabu.libs.types.properties.DefaultValueProperty;
+import be.nabu.libs.types.properties.DynamicForeignKeyProperty;
 import be.nabu.libs.types.properties.EnvironmentSpecificProperty;
 import be.nabu.libs.types.properties.ForeignKeyProperty;
 import be.nabu.libs.types.properties.ForeignNameProperty;
@@ -68,6 +69,7 @@ abstract public class BaseSimpleType<T> extends BaseType<T> implements DefinedSi
 	@Override
 	public Set<Property<?>> getSupportedProperties(Value<?>...properties) {
 		Set<Property<?>> set = super.getSupportedProperties(properties);
+		set.add(DynamicForeignKeyProperty.getInstance());
 		set.add(ForeignKeyProperty.getInstance());
 		set.add(ForeignNameProperty.getInstance());
 		set.add(PrimaryKeyProperty.getInstance());

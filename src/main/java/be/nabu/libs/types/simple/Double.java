@@ -22,6 +22,7 @@ import java.util.Set;
 import be.nabu.libs.property.api.Property;
 import be.nabu.libs.property.api.Value;
 import be.nabu.libs.types.base.BaseComparableSimpleType;
+import be.nabu.libs.types.properties.EpsilonProperty;
 import be.nabu.libs.types.properties.FractionDigits;
 import be.nabu.libs.types.properties.TotalDigits;
 
@@ -79,6 +80,7 @@ public class Double extends BaseComparableSimpleType<java.lang.Double> {
 		Set<Property<?>> set = super.getSupportedProperties(properties);
 		set.add(FractionDigits.getInstance());
 		set.add(TotalDigits.getInstance());
+		set.add(EpsilonProperty.getInstance());
 		return set;
 	}
 }

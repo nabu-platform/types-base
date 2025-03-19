@@ -106,11 +106,17 @@ public class Date extends BaseComparableSimpleType<java.util.Date> implements Un
 		return properties;
 	}
 
-	private DateFormat createFormatter(Value<?>...values) {
+	private DateFormat createFormatter(java.lang.String guessedFormat, Value<?>...values) {
 		DateFormat dateFormatter = null;
 		java.lang.String format = ValueUtils.getValue(new FormatProperty(), values);
-		if (format == null)
-			format = "dateTime";
+		if (format == null) {
+			if (guessedFormat != null) {
+				format = guessedFormat;
+			}
+			else {
+				format = "dateTime";
+			}
+		}
 		java.lang.String country = ValueUtils.getValue(new CountryProperty(), values);
 		java.lang.String language = ValueUtils.getValue(new LanguageProperty(), values);
 		TimeZone timezone = ValueUtils.getValue(new TimezoneProperty(), values);
@@ -145,7 +151,7 @@ public class Date extends BaseComparableSimpleType<java.util.Date> implements Un
 
 	@Override
 	public java.lang.String marshal(java.util.Date object, Value<?>...values) {
-		DateFormat dateFormatter = createFormatter(values);
+		DateFormat dateFormatter = createFormatter(null, values);
 		if (dateFormatter instanceof TimeFormat) {
 			((TimeFormat) dateFormatter).setForceTimeZoneInString(true);
 			((TimeFormat) dateFormatter).setForceMilliseconds(true);
@@ -154,12 +160,28 @@ public class Date extends BaseComparableSimpleType<java.util.Date> implements Un
 		return dateFormatter.format(object);
 	}
 
+	private java.lang.String guessFormat(java.lang.String date) {
+		java.lang.String format = null;
+		if (date != null) {
+			if (date.matches("[0-9]{4}")) {
+				format = "yyyy";
+			}
+			else if (date.matches("[0-9]{4}-[0-9]{2}")) {
+				format = "yyyy-MM";
+			}
+			else if (date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}")) {
+				format = "yyyy-MM-dd";
+			}
+		}
+		return format;
+	}
+	
 	@Override
 	public java.util.Date unmarshal(java.lang.String content, Value<?>...values) {
 		if (content == null || content.trim().isEmpty()) {
 			return null;
 		}
-		DateFormat dateFormatter = createFormatter(values);
+		DateFormat dateFormatter = createFormatter(guessFormat(content), values);
 		try {
 			if (dateFormatter instanceof TimeFormat) {
 				((TimeFormat) dateFormatter).setForceTimeZoneInString(false);
@@ -181,10 +203,10 @@ public class Date extends BaseComparableSimpleType<java.util.Date> implements Un
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public Validator<java.util.Date> createValidator(Value<?>... values) {
+	public Validator<java.util.Date> createValidator(Value<?>...values) {
 		return new MultipleValidator(
 			super.createValidator(values),
-			new TimeBlockValidator(createFormatter(values), ValueUtils.getValue(new TimeBlockProperty(), values))
+			new TimeBlockValidator(createFormatter(null, values), ValueUtils.getValue(new TimeBlockProperty(), values))
 		);
 	}
 	
